@@ -1,12 +1,20 @@
 <!DOCTYPE HTML>
 <html>
+	<link rel="stylesheet" href="/css/styles.css">
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<!-- Notice that socket.io adds a path to its client-side js that is not in /public -->
 	<script src="/socket.io/socket.io.js"></script>
 	<!-- This is my example client-side javascript that uses socket.io -->
-	<script src="/javascripts/clientSocket.js"></script>
+	<script src="/js/clientSocket.js"></script>
 	<body>
-		<p id="welcome"></p>		
-		<p> There are currently <span id="numPlayers">no</span> players.</p>
-	</body
+		<div id="header">
+			<div id="welcome_header">
+					<p id="welcome"></p>	
+					<p id="total_players">Total Number of Users Ever: <span id="totalPlayers">0</span></p>
+					<p id="games_started">Total Number of Games Started: <span id="gamesStarted">0</span></p>	
+					<p id="games_finished">Total Number of Games Finished: <span id="gamesFinished">0</span></p>	
+			</div>
+			<p id="num_online"> Number of Users Online: <span id="numPlayers">0</span></p>
+		</div>
+	</body>
 </html>
