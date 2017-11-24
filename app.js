@@ -3,12 +3,9 @@ var fs = require('fs');
 var path = require('path');
 var bodyParser = require('body-parser');
 var express = require("express");
+var http = require('http');
 var app = express();
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+
 // Set views directory
 app.set("views", __dirname + "/views");
 app.use(express.static(__dirname + '/public'));
@@ -38,7 +35,11 @@ app.use(function(req,res) {
   res.status(404).render('error', {'message':message});
 });
 
-var httpServer = require('http').createServer(app);
+var httpServer = http.Server(app);
+var sio = require('socket.io');
+var io = sio(httpServer);
 httpServer.listen(50000, function() {
   console.log("Listening on port:" + this.address().port);
 });
+var gameSockets = require('./routes/serverSocket.js');
+gameSockets.init(io);
