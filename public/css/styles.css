@@ -1,12 +1,3 @@
-#header {
-  display: inline-block;
-  width: -webkit-fill-available;
-}
-
-#welcome_header {
-  float: left;
-}
-
-#num_online {
-  float: right;
+table, th, td {
+  border: 1px solid black;
 }

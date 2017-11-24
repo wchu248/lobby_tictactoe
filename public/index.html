@@ -1,20 +1,86 @@
-<!DOCTYPE HTML>
 <html>
-	<link rel="stylesheet" href="/css/styles.css">
-	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-	<!-- Notice that socket.io adds a path to its client-side js that is not in /public -->
-	<script src="/socket.io/socket.io.js"></script>
-	<!-- This is my example client-side javascript that uses socket.io -->
-	<script src="/js/clientSocket.js"></script>
-	<body>
-		<div id="header">
-			<div id="welcome_header">
-					<p id="welcome"></p>	
-					<p>Total Number of Users Ever: <span id="totalPlayers">0</span></p>
-					<p>Total Number of Games Started: <span id="gamesStarted">0</span></p>	
-					<p>Total Number of Games Finished: <span id="gamesFinished">0</span></p>	
-			</div>
-			<p id="num_online"> Number of Users Online: <span id="numPlayers">0</span></p>
-		</div>
-	</body>
+  <head>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- taken from Google's hosted jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="js/student_functions.js"></script>
+    <title>User CRUD Test Actions</title>
+  </head>
+  <body>
+    <p>Winston Chu</p>
+    <p>67-328: HW15</p>
+    <p>Read the below instructions to add, get, update, or delete users in the system database:</p>
+    <p>For PUT add a query string with an attribute/value pair to the request body:</p>
+    <ul>
+      <li>Example:</li>
+      <li>/create/username=billsmith&password=pw123</li>
+    </ul>
+    <p>For GET add a query string with an attribute/value pair to Retrieve</p>
+    <ul>
+      <li>Example:</li>
+      <li>/retrieve?username=wpchu</li>
+    </ul>
+    <p>For UPDATE, use POST with the following body example form:</p>
+    <ul>
+      <li>/update/find={"username":"wpchu"}&update={"$set":{"password":"new_pw123"}}</li>
+      <li>however, this won't be used that much in my final project b/c users will not be able to update their information</li>
+    </ul>
+    <p>For DELETE, add a query to find the user you want to delete:</p>
+    <ul>
+      <li>Example:</li>
+      <li>/delete/find={"username":"wpchu"}</li>
+    </ul>
+    <h3>Or, to make things easy, just use this table below and fill in the forms to do each CRUD action.</h3>
+    <div id="message"></div>
+    <table>
+      <tr>
+        <th>GET</th>
+        <th>PUT</th>
+      </tr>
+      <tr>
+        <td>
+          <form id="get_form">
+            Enter a username or password to retrieve a user:<br>
+            Username: <input type="text" name="username"><br>
+            Password: <input type="text" name="password"><br>
+            <input type="submit" value="Retrieve User">
+          </form>
+        </td>
+        <td>
+          <form id="put_form">
+            Use this form to add a user:<br>
+            Username: <input type="text" name="username"><br>
+            Password: <input type="text" name="password"><br>
+            <input type="submit" value="Add User">
+          </form>
+        </td>
+      </tr>
+      <tr>
+          <th>POST</th>
+          <th>DELETE</th>
+        </tr>
+      <tr>
+        <td>
+          <form id="post_form">
+            Use this form to update a user:<br>
+            Use these fields to first find a user:<br>
+            Username: <input type="text" name="username"> <br>
+            Password: <input type="text" name="password"> <br>
+            Use these fields to change the fields:<br>
+            Username: <input type="text" name="change_username"> <br>
+            Password: <input type="text" name="change_password"> <br>
+            <input type="submit" value="Update User">
+          </form>
+        </td>
+        <td>
+          <form id="delete_form">
+            Use this form to delete a user:<br>
+            Username: <input type="text" name="username"> <br>
+            Password: <input type="text" name="password"> <br>
+            <input type="submit" value="Delete User">
+          </form>
+        </td>
+      </tr>
+    </table>
+  </body>
 </html>
