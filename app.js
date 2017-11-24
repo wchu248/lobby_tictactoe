@@ -30,7 +30,7 @@ fs.readdirSync('./routes').forEach(function (file) {
     require('./routes/'+file).init(app);
   }
 })
-//
+
 // catch any routes not already handled with error message
 app.use(function(req,res) {
   var message = 'Error, did not understand path ' + req.path;
