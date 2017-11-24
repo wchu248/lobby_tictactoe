@@ -27,35 +27,35 @@ $(function() { // DOM is ready
   //   }
   //   event.preventDefault(); // stop default submit action
   // });
-  $("#put_form").submit(function(event) { // submit handler for PUT form
-    // get value from form
-    var username = $(this).find('input[name="username"]').val();
-    var password = $(this).find('input[name="password"]').val();
-    var send_url = 'create?';
-    if (username == "" && password != "") {
-      send_url += 'password=' + password;
-    } else if (password == "" && username != "") {
-      send_url += 'username=' + username;
-    } else if (password != "" && username != "") {
-      send_url += 'username=' + username + '&password=' + password;
-    } else {
-      send_url = null;
-    }
-    if (send_url) {
-      // do Ajax
-      $.ajax({
-        url: send_url,
-        type: 'PUT',
-        success: function(result) {
-          $('#message').html(result);
-          document.getElementById("put_form").reset();
-        }
-      });
-    } else {
-      $('#message').html('Please fill out the form before creating a user!');
-    }
-    event.preventDefault(); // stop default submit action
-  });
+  // $("#put_form").submit(function(event) { // submit handler for PUT form
+  //   // get value from form
+  //   var username = $(this).find('input[name="username"]').val();
+  //   var password = $(this).find('input[name="password"]').val();
+  //   var send_url = 'create?';
+  //   if (username == "" && password != "") {
+  //     send_url += 'password=' + password;
+  //   } else if (password == "" && username != "") {
+  //     send_url += 'username=' + username;
+  //   } else if (password != "" && username != "") {
+  //     send_url += 'username=' + username + '&password=' + password;
+  //   } else {
+  //     send_url = null;
+  //   }
+  //   if (send_url) {
+  //     // do Ajax
+  //     $.ajax({
+  //       url: send_url,
+  //       type: 'PUT',
+  //       success: function(result) {
+  //         $('#message').html(result);
+  //         document.getElementById("put_form").reset();
+  //       }
+  //     });
+  //   } else {
+  //     $('#message').html('Please fill out the form before creating a user!');
+  //   }
+  //   event.preventDefault(); // stop default submit action
+  // });
   $("#post_form").submit(function(event) { // submit handler for POST form
     // get values from form
     var find_username = $(this).find('input[name="username"]').val();
