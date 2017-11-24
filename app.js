@@ -28,6 +28,14 @@ fs.readdirSync('./routes').forEach(function (file) {
   }
 })
 
+app.get('/', function(req, res) {
+  res.render('index');
+})
+
+app.get('/login', function(req, res) {
+  res.render('login');
+})
+
 // catch any routes not already handled with error message
 app.use(function(req,res) {
   var message = 'Error, did not understand path ' + req.path;

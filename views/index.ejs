@@ -1,11 +1,11 @@
 <html>
   <head>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
     <!-- taken from Google's hosted jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="js/clientSocket.js"></script>
-    <script src="js/student_functions.js"></script>
+    <script src="/js/clientSocket.js"></script>
+    <script src="/js/student_functions.js"></script>
     <title>User CRUD Test Actions</title>
   </head>
   <body>
@@ -85,5 +85,10 @@
         </td>
       </tr>
     </table>
+    <form id="login">
+      <input type="text" name="username" label="Username"> <br>
+      <input type="text" name="password" label="Password"> <br>
+      <input type="submit" value="Log In">
+    </form>
   </body>
 </html>

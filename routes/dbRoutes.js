@@ -7,6 +7,13 @@ exports.init = function(app) {
   app.get('/retrieve', doRetrieve);  // CRUD Retrieve
   app.post('/update', doUpdate);   // CRUD Update
   app.delete('/delete', doDelete); // CRUD Delete
+  app.get('/login', doLogin); // Login
+}
+
+// Login
+doLogin = function(req, res){
+  console.log('allsldf');
+  res.render('login');
 }
 
 // CRUD Create
