@@ -6,10 +6,27 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/clientSocket.js"></script>
     <script src="/js/student_functions.js"></script>
-    <title>User CRUD Test Actions</title>
+    <title>Lobby Tic-Tac-Toe</title>
   </head>
   <body>
-    <p id="numPlayers"></p>
+    <h2>Welcome to Lobby Tic-Tac-Toe!</h2>
+    <h4>Login or Register to get Started</h4>
+    <p><%= login_error_message %></p>
+    <form id="get_form" method="get" action="/retrieve">
+      Enter a username or password to login:<br>
+      Username: <input type="text" name="username"><br>
+      Password: <input type="text" name="password"><br>
+      <input type="submit" value="Login">
+    </form>
+    <form id="put_form">
+      Use this form to register:<br>
+      Username: <input type="text" name="username"><br>
+      Password: <input type="text" name="password"><br>
+      <input type="submit" value="Register">
+    </form>
+    <!-- <form action="/login">
+      <input type="submit" value="Login" />
+    </form>
     <p>Winston Chu</p>
     <p>67-328: HW15</p>
     <p>Read the below instructions to add, get, update, or delete users in the system database:</p>
@@ -84,11 +101,6 @@
           </form>
         </td>
       </tr>
-    </table>
-    <form id="login">
-      <input type="text" name="username" label="Username"> <br>
-      <input type="text" name="password" label="Password"> <br>
-      <input type="submit" value="Log In">
-    </form>
+    </table> -->
   </body>
 </html>

@@ -6,6 +6,8 @@ var express = require("express");
 var http = require('http');
 var app = express();
 
+app.disable('etag');
+
 // Set views directory
 app.set("views", __dirname + "/views");
 app.use(express.static(__dirname + '/public'));
@@ -26,14 +28,6 @@ fs.readdirSync('./routes').forEach(function (file) {
     console.log("Adding routes in " + file);
     require('./routes/'+file).init(app);
   }
-})
-
-app.get('/', function(req, res) {
-  res.render('index');
-})
-
-app.get('/login', function(req, res) {
-  res.render('login');
 })
 
 // catch any routes not already handled with error message
