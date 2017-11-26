@@ -11,6 +11,7 @@ exports.init = function(io) {
 			lobbyUsers[data.username] = socket.id;
 			console.log("lobby: ");
 			console.log(lobbyUsers);
+			socket.emit('username', {username: data.username});
 			socket.broadcast.emit('joinlobby', {lobby: lobbyUsers});
 		});
 

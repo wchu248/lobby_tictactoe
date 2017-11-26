@@ -1,3 +1,9 @@
-table, th, td {
-  border: 1px solid black;
+#lobby {
+  /* initially hide this */
+  display: none;
+}
+
+#game {
+  /* initially hide this */
+  display: none;
 }
