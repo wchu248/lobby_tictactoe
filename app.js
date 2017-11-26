@@ -43,5 +43,6 @@ var io = sio(httpServer);
 httpServer.listen(50000, function() {
   console.log("Listening on port:" + this.address().port);
 });
+app.set('socket.io', io);
 var gameSockets = require('./routes/serverSocket.js');
 gameSockets.init(io);
