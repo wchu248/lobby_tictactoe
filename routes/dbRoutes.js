@@ -1,5 +1,6 @@
 var mongoModel = require('../models/mongoModel.js');
-
+'use strict';
+var sessionstorage = require('sessionstorage');
 var collection = "users";
 
 exports.init = function(app) {
@@ -43,7 +44,8 @@ doRetrieve = function(req, res) {
   mongoModel.retrieve(collection, req.query, function(modelData) {
     if (modelData.length) {
       console.log('found someone!');
-      sessionStorage.setItem('username', modelData[0].username);
+      global.sessionStorage.setItem('username', modelData[0].username);
+      console.log(sessionstorage.getItem('username'));
       res.redirect('/lobby');
     } else {
       res.render('index', {error_message: "Username and/or password not found. Please try again"});

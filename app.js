@@ -4,6 +4,8 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var express = require("express");
 var http = require('http');
+'use strict';
+var sessionstorage = require('sessionstorage');
 var app = express();
 
 app.disable('etag');
@@ -31,7 +33,9 @@ fs.readdirSync('./routes').forEach(function (file) {
 })
 
 app.get('/lobby', function(req, res) {
-  var username = sessionStorage.getItem('username');
+  var username = sessionstorage.getItem('username');
+  console.log('here');
+  console.log(username);
   if (username) {
     res.render('lobby', {username: username});
   } else {
