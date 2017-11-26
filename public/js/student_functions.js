@@ -1,10 +1,5 @@
 $(function() { // DOM is ready
-  $("#login").submit(function(event) {
-    $.ajax({
-      url: '/login',
-      type: "GET"
-    });
-  }); 
+  // socket.emit('asdof', {asd:"asdasd"});
   // $("#get_form").submit(function(event) { // submit handler for GET form
   //   // get values from form
   //   var username = $(this).find('input[name="username"]').val();

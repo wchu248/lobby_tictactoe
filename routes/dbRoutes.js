@@ -1,5 +1,4 @@
 var mongoModel = require('../models/mongoModel.js');
-
 var collection = "users";
 
 exports.init = function(app) {
@@ -39,13 +38,14 @@ doCreate = function(req, res) {
 
 // CRUD Retrieve
 doRetrieve = function(req, res) {
-  console.log(req.query);
+  var io = req.app.get('socket.io');
   mongoModel.retrieve(collection, req.query, function(modelData) {
     if (modelData.length) {
-      console.log('found someone!');
+      io.sockets.emit('joined_lobby', {username: modelData[0].username});
       res.render('lobby', {username: modelData[0].username});
     } else {
       res.render('index', {error_message: "Username and/or password not found. Please try again"});
     }
-  })
+  });
+  return false;
 }
