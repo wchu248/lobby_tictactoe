@@ -1,61 +1,55 @@
 $(function() { // DOM is ready
-  $("#login").submit(function(event) {
-    $.ajax({
-      url: '/login',
-      type: "GET"
-    });
-  }); 
-  // $("#get_form").submit(function(event) { // submit handler for GET form
-  //   // get values from form
-  //   var username = $(this).find('input[name="username"]').val();
-  //   var password = $(this).find('input[name="password"]').val();
-  //   if (password != "" && username != "") {
-  //     var send_url = 'retrieve?' + 'username=' + username + '&password=' + password;
-  //     // do Ajax
-  //     $.ajax({
-  //       url: send_url,
-  //       type: 'GET',
-  //       success: function(result) {
-  //         $('#info').html(result);
-  //         if (result != "The username and/or password is incorrect.") {
-  //           document.getElementById("get_form").reset();
-  //         }
-  //       }
-  //     });
-  //   } else {
-  //     $('#info').html('Please fill out the form before searching for users!');
-  //   }
-  //   event.preventDefault(); // stop default submit action
-  // });
-  // $("#put_form").submit(function(event) { // submit handler for PUT form
-  //   // get value from form
-  //   var username = $(this).find('input[name="username"]').val();
-  //   var password = $(this).find('input[name="password"]').val();
-  //   var send_url = 'create?';
-  //   if (username == "" && password != "") {
-  //     send_url += 'password=' + password;
-  //   } else if (password == "" && username != "") {
-  //     send_url += 'username=' + username;
-  //   } else if (password != "" && username != "") {
-  //     send_url += 'username=' + username + '&password=' + password;
-  //   } else {
-  //     send_url = null;
-  //   }
-  //   if (send_url) {
-  //     // do Ajax
-  //     $.ajax({
-  //       url: send_url,
-  //       type: 'PUT',
-  //       success: function(result) {
-  //         $('#message').html(result);
-  //         document.getElementById("put_form").reset();
-  //       }
-  //     });
-  //   } else {
-  //     $('#message').html('Please fill out the form before creating a user!');
-  //   }
-  //   event.preventDefault(); // stop default submit action
-  // });
+  $("#get_form").submit(function(event) { // submit handler for GET form
+    // get values from form
+    var username = $(this).find('input[name="username"]').val();
+    var password = $(this).find('input[name="password"]').val();
+    if (password != "" && username != "") {
+      var send_url = 'retrieve?' + 'username=' + username + '&password=' + password;
+      // do Ajax
+      $.ajax({
+        url: send_url,
+        type: 'GET',
+        success: function(result) {
+          $('#info').html(result);
+          if (result != "The username and/or password is incorrect.") {
+            document.getElementById("get_form").reset();
+          }
+        }
+      });
+    } else {
+      $('#info').html('Please fill out the form before searching for users!');
+    }
+    event.preventDefault(); // stop default submit action
+  });
+  $("#put_form").submit(function(event) { // submit handler for PUT form
+    // get value from form
+    var username = $(this).find('input[name="username"]').val();
+    var password = $(this).find('input[name="password"]').val();
+    var send_url = 'create?';
+    if (username == "" && password != "") {
+      send_url += 'password=' + password;
+    } else if (password == "" && username != "") {
+      send_url += 'username=' + username;
+    } else if (password != "" && username != "") {
+      send_url += 'username=' + username + '&password=' + password;
+    } else {
+      send_url = null;
+    }
+    if (send_url) {
+      // do Ajax
+      $.ajax({
+        url: send_url,
+        type: 'PUT',
+        success: function(result) {
+          $('#message').html(result);
+          document.getElementById("put_form").reset();
+        }
+      });
+    } else {
+      $('#message').html('Please fill out the form before creating a user!');
+    }
+    event.preventDefault(); // stop default submit action
+  });
   $("#post_form").submit(function(event) { // submit handler for POST form
     // get values from form
     var find_username = $(this).find('input[name="username"]').val();

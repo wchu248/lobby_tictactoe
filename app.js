@@ -30,6 +30,15 @@ fs.readdirSync('./routes').forEach(function (file) {
   }
 })
 
+app.get('/lobby', function(req, res) {
+  var username = sessionStorage.getItem('username');
+  if (username) {
+    res.render('lobby', {username: username});
+  } else {
+    res.render('error', {message: "Sorry, an error occurred."});
+  }
+});
+
 // catch any routes not already handled with error message
 app.use(function(req,res) {
   var message = 'Error, did not understand path ' + req.path;

@@ -4,7 +4,7 @@ var collection = "users";
 
 exports.init = function(app) {
   app.get('/', index)
-  app.get('/create', doCreate);    // CRUD Create
+  app.put('/create', doCreate);    // CRUD Create
   app.get('/retrieve', doRetrieve);  // CRUD Retrieve
 }
 
@@ -43,7 +43,8 @@ doRetrieve = function(req, res) {
   mongoModel.retrieve(collection, req.query, function(modelData) {
     if (modelData.length) {
       console.log('found someone!');
-      res.render('lobby', {username: modelData[0].username});
+      sessionStorage.setItem('username', modelData[0].username);
+      res.redirect('/lobby');
     } else {
       res.render('index', {error_message: "Username and/or password not found. Please try again"});
     }
