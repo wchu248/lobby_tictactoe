@@ -10,19 +10,28 @@
   </head>
   <body>
     <h2>Welcome to Lobby Tic-Tac-Toe!</h2>
-    <h4>Login or Register to get Started</h4>
-    <p><%= error_message %></p>
-    <form id="get_form" method="get" action="/retrieve">
-      Enter a username or password to login:<br>
-      Username: <input type="text" name="username"><br>
-      Password: <input type="text" name="password"><br>
-      <input type="submit" value="Login">
-    </form>
-    <form id="put_form" method="get" action="/create">
-      Use this form to register:<br>
-      Username: <input type="text" name="username"><br>
-      Password: <input type="text" name="password"><br>
-      <input type="submit" value="Register">
-    </form>
+    <div id="welcome">
+      <h4>Login or Register to get Started</h4>
+      <form id="get_form">
+        Enter a username or password to login:<br>
+        Username: <input type="text" name="username"><br>
+        Password: <input type="password" name="password"><br>
+        <input type="submit" value="Login">
+      </form>
+      <form id="put_form" method="get" action="/create">
+        Use this form to register:<br>
+        Username: <input type="text" name="username"><br>
+        Password: <input type="text" name="password"><br>
+        <input type="submit" value="Register">
+      </form>
+    </div>
+    <div id="lobby">
+      <p id="username"></p>
+      <p>Online Users Now:</p>
+      <div id="online_users"></div>
+    </div>
+    <div id="game">
+
+    </div>
   </body>
 </html>

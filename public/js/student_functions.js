@@ -1,27 +1,31 @@
+var socket;
 $(function() { // DOM is ready
-  // socket.emit('asdof', {asd:"asdasd"});
-  // $("#get_form").submit(function(event) { // submit handler for GET form
-  //   // get values from form
-  //   var username = $(this).find('input[name="username"]').val();
-  //   var password = $(this).find('input[name="password"]').val();
-  //   if (password != "" && username != "") {
-  //     var send_url = 'retrieve?' + 'username=' + username + '&password=' + password;
-  //     // do Ajax
-  //     $.ajax({
-  //       url: send_url,
-  //       type: 'GET',
-  //       success: function(result) {
-  //         $('#info').html(result);
-  //         if (result != "The username and/or password is incorrect.") {
-  //           document.getElementById("get_form").reset();
-  //         }
-  //       }
-  //     });
-  //   } else {
-  //     $('#info').html('Please fill out the form before searching for users!');
-  //   }
-  //   event.preventDefault(); // stop default submit action
-  // });
+  $("#get_form").submit(function(event) { // submit handler for logging in
+    // get values from form
+    var username = $(this).find('input[name="username"]').val();
+    var password = $(this).find('input[name="password"]').val();
+    if (password != "" && username != "") {
+      var send_url = 'retrieve?' + 'username=' + username + '&password=' + password;
+      // do Ajax
+      $.ajax({
+        url: send_url,
+        type: 'GET',
+        success: function(result) {
+          if (result == "error") {
+            // do error shit
+            $("#info").html(result);
+          } else {
+            // login
+            $('#info').text(result);
+            socket.emit('login', {username: result});
+          }
+        }
+      });
+    } else {
+      $('#info').html('Please fill out the form before searching for users!');
+    }
+    event.preventDefault(); // stop default submit action
+  });
   // $("#put_form").submit(function(event) { // submit handler for PUT form
   //   // get value from form
   //   var username = $(this).find('input[name="username"]').val();

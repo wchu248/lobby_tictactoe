@@ -20,7 +20,6 @@ doCreate = function(req, res) {
   } else {
     var query = '{ \"username\": \"' + req.query.username + '\" }';
   }
-  console.log(JSON.parse(query));
   // first see if someone with that username exists already
   mongoModel.retrieve(collection, JSON.parse(query), function(modelData) {
     if (modelData.length) {
@@ -41,10 +40,9 @@ doRetrieve = function(req, res) {
   var io = req.app.get('socket.io');
   mongoModel.retrieve(collection, req.query, function(modelData) {
     if (modelData.length) {
-      io.sockets.emit('joined_lobby', {username: modelData[0].username});
-      res.render('lobby', {username: modelData[0].username});
+      res.send(modelData[0].username);
     } else {
-      res.render('index', {error_message: "Username and/or password not found. Please try again"});
+      res.send('error');
     }
   });
   return false;
