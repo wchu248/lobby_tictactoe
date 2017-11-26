@@ -57,10 +57,11 @@ $(function() { // DOM is ready
     event.preventDefault(); // stop default submit action
   });
   // dealing with messages
-  $('#f1').submit(function(event){
+  $('#message_field').submit(function(event){
     event.preventDefault();
-    var m = $('#m').val();
-    $('#m').val('');
-    socket.emit('chat_message', {message: m});
+    var message = $('#message_text').val();
+    $('#message_text').val('');
+    console.log(message);
+    socket.emit('new_message', {message: message});
   });
 });
