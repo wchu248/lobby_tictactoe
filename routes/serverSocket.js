@@ -13,6 +13,7 @@ exports.init = function(io) {
 			console.log("lobby: ");
 			console.log(lobbyUsers);
 			socket.emit('username', {username: data.username});
+			socket.emit('joinlobby', {lobby: lobbyUsers});
 			socket.broadcast.emit('joinlobby', {lobby: lobbyUsers});
 		});
 
@@ -21,6 +22,16 @@ exports.init = function(io) {
 			data['username'] = lobbyUsers[socket.id]; // show who sent the message
 			socket.emit('new_message', data);
       socket.broadcast.emit('new_message', data);
+		})
+
+		// processing invites to games
+		socket.on('invite', function(data) {
+			// sender username is stored in data.sender
+			// target user socketID is stored in data.target_user
+			var sender = data.sender;
+			var target_user = lobbyUsers[data.target_user];
+			// console.log(data.target_user);
+			socket.broadcast.to(data.target_user).emit('invite', {opponent: sender});
 		})
 
 		socket.on('disconnect', function () {

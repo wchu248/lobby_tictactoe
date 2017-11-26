@@ -28,7 +28,6 @@ doCreate = function(req, res) {
     } else {
       // if not, then create the user and log in
       mongoModel.create(collection, req.query, function(result) {
-        var success = (result ? "Create successful" : "Create unsuccessful");
         res.send(req.query.username);
       });
     }

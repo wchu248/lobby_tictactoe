@@ -56,6 +56,7 @@ $(function() { // DOM is ready
     }
     event.preventDefault(); // stop default submit action
   });
+
   // dealing with messages
   $('#message_field').submit(function(event){
     event.preventDefault();
@@ -64,4 +65,5 @@ $(function() { // DOM is ready
     console.log(message);
     socket.emit('new_message', {message: message});
   });
+  
 });
