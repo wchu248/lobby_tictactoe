@@ -31,4 +31,5 @@ socket.on('new_message', function(data) {
 // when you receive an invite
 socket.on('invite', function(data) {
   $("#info").text("You received an invite to play from " + data.opponent);
+  // show accept buttons and emit accept or reject event to server to emit to opponent
 })
