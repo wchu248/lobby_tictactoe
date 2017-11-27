@@ -1,4 +1,5 @@
-var lobbyUsers = {};
+var onlineUsers = {};
+var inGameUsers = {};
 
 exports.init = function(io) {
 	var playerLobby = [];
@@ -9,17 +10,17 @@ exports.init = function(io) {
 			// username is stored in data.username
 			console.log("username: " + data.username);
 			socket.userId = data.username;  
-			lobbyUsers[socket.id] = data.username;
+			onlineUsers[socket.id] = data.username;
 			console.log("lobby: ");
-			console.log(lobbyUsers);
+			console.log(onlineUsers);
 			socket.emit('username', {username: data.username});
-			socket.emit('joinlobby', {lobby: lobbyUsers});
-			socket.broadcast.emit('joinlobby', {lobby: lobbyUsers});
+			socket.emit('joinlobby', {lobby: onlineUsers, inGameLobby: inGameUsers});
+			socket.broadcast.emit('joinlobby', {lobby: onlineUsers, inGameLobby: inGameUsers});
 		});
 
 		socket.on('new_message', function(data) {
 			// message is stored in data.message
-			data['username'] = lobbyUsers[socket.id]; // show who sent the message
+			data['username'] = onlineUsers[socket.id]; // show who sent the message
 			socket.emit('new_message', data);
       socket.broadcast.emit('new_message', data);
 		});
@@ -29,8 +30,7 @@ exports.init = function(io) {
 			// sender username is stored in data.sender
 			// target user socketID is stored in data.target_user
 			var sender = data.sender;
-			var target_user = lobbyUsers[data.target_user];
-			// console.log(data.target_user);
+			var target_user = onlineUsers[data.target_user];
 			socket.broadcast.to(data.target_user).emit('invite', {opponent: sender, opponentID: socket.id});
 		});
 
@@ -41,6 +41,12 @@ exports.init = function(io) {
 
 		// accepting games
 		socket.on('accept_game', function(data) {
+			// make both players have in-game status
+			inGameUsers[data.player1ID] = data.player1;
+			inGameUsers[data.player2ID] = data.player2;
+			// refresh the online users list to change their status
+			socket.emit('joinlobby', {lobby: onlineUsers, inGameLobby: inGameUsers});
+			socket.broadcast.emit('joinlobby', {lobby: onlineUsers, inGameLobby: inGameUsers});
 			// start the game for both players
 			// emit to client
 			socket.emit('start_game', {opponent: data.player2, opponentID: data.player2ID});

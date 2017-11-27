@@ -10,13 +10,20 @@ socket.on('username', function(data) {
 
 // show when a new user joins
 socket.on('joinlobby', function(data) {
+  var color;
   document.getElementById('online_users').innerHTML = '';
   for (var socketID in data.lobby) {
     if (clientUsername != data.lobby[socketID]) {
+      // set color of button based on status of that user
+      if (Object.values(data.inGameLobby).indexOf(data.lobby[socketID]) > -1) {
+        color = "orange";
+      } else {
+        color = "green";
+      }
       $("#online_users").append($("<button>").text(data.lobby[socketID]).attr('id', socketID).on('click', function() {
         var target_user = $(this).attr('id');
         socket.emit('invite', {sender: clientUsername, target_user: target_user});
-      }));
+      }).css('background-color', color));
     } else {
       clientSocketID = socketID;
     }
