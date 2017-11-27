@@ -6,14 +6,8 @@ var express = require("express");
 var http = require('http');
 var app = express();
 
-app.disable('etag');
-
 // Set views directory
-app.set("views", __dirname + "/views");
 app.use(express.static(__dirname + '/public'));
-
-// Define view (templating) engine
-app.set("view engine", 'ejs');
 
 // Define how to log events
 app.use(morgan('tiny'));
