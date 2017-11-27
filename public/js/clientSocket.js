@@ -30,6 +30,12 @@ socket.on('new_message', function(data) {
 
 // when you receive an invite
 socket.on('invite', function(data) {
-  $("#info").text("You received an invite to play from " + data.opponent);
+  $("#notif").text("You received an invite to play from " + data.opponent + "!");
+  $("#notif_buttons").append($("<button>").text("Accept").attr('id', clientSocketID).on('click', function() {
+    // do stuff when accepting game
+  }));
+  $("#notif_buttons").append($("<button>").text("Reject").attr('id', clientSocketID).on('click', function() {
+    // send message to inviter that invite is rege
+  }));
   // show accept buttons and emit accept or reject event to server to emit to opponent
 })
