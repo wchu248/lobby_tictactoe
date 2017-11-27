@@ -54,6 +54,20 @@ exports.init = function(io) {
 			socket.broadcast.to(data.player2ID).emit('start_game', {opponent: data.player1, opponentID: data.player1ID})
 		});
 
+
+		// when someone resigns a game
+		socket.on('game_resigned', function(data) {
+			// remove them from in game lobby
+			delete inGameUsers[data.resignerID];
+			delete inGameUsers[data.opponentID];
+			console.log(inGameUsers);
+			socket.emit('game_resigned', {resigner: true, opponentName: onlineUsers[data.opponentID]});
+			socket.broadcast.to(data.opponentID).emit('game_resigned', {resigner: false, opponentName: onlineUsers[data.resignerID]});
+			// refresh the lobby
+			socket.emit('joinlobby', {lobby: onlineUsers, inGameLobby: inGameUsers});
+			socket.broadcast.emit('joinlobby', {lobby: onlineUsers, inGameLobby: inGameUsers});
+		});
+
 		socket.on('disconnect', function () {
 		});
 	});
