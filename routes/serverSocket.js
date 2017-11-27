@@ -34,8 +34,18 @@ exports.init = function(io) {
 			socket.broadcast.to(data.target_user).emit('invite', {opponent: sender, opponentID: socket.id});
 		});
 
+		// rejecting games
 		socket.on('reject_game', function(data) {
 			socket.broadcast.to(data.inviterID).emit('rejected_invite', {rejecter: data.rejecter});
+		});
+
+		// accepting games
+		socket.on('accept_game', function(data) {
+			// start the game for both players
+			// emit to client
+			socket.emit('start_game', {opponent: data.player2, opponentID: data.player2ID});
+			// emit to client's opponent
+			socket.broadcast.to(data.player2ID).emit('start_game', {opponent: data.player1, opponentID: data.player1ID})
 		});
 
 		socket.on('disconnect', function () {
