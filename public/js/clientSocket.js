@@ -16,8 +16,10 @@ socket.on('joinlobby', function(data) {
     if (clientUsername != data.lobby[socketID]) {
       // set color of button based on status of that user
       if (Object.values(data.inGameLobby).indexOf(data.lobby[socketID]) > -1) {
+        // orange if in game
         color = "orange";
       } else {
+        // green if hanging out in lobby
         color = "green";
       }
       $("#online_users").append($("<button>").text(data.lobby[socketID]).attr('id', socketID).on('click', function() {
