@@ -61,9 +61,10 @@ $(function() { // DOM is ready
   $('#message_field').submit(function(event){
     event.preventDefault();
     var message = $('#message_text').val();
-    $('#message_text').val('');
-    console.log(message);
-    socket.emit('new_message', {message: message});
+    if (message != "") {
+      $('#message_text').val('');
+      socket.emit('new_message', {message: message});
+    } 
   });
   
 });
