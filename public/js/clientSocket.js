@@ -30,12 +30,18 @@ socket.on('new_message', function(data) {
 
 // when you receive an invite
 socket.on('invite', function(data) {
-  $("#notif").text("You received an invite to play from " + data.opponent + "!");
-  $("#notif_buttons").append($("<button>").text("Accept").attr('id', clientSocketID).on('click', function() {
+  $("#info").text("You received an invite to play from " + data.opponent + "!");
+  $("#info").append($("<button>").text("Accept").attr('id', clientSocketID).on('click', function() {
     // do stuff when accepting game
   }));
-  $("#notif_buttons").append($("<button>").text("Reject").attr('id', clientSocketID).on('click', function() {
-    // send message to inviter that invite is rege
+  $("#info").append($("<button>").text("Reject").attr('id', clientSocketID).on('click', function() {
+    // send message to inviter that invite is rejected
+    socket.emit('reject_game', {rejecter: clientUsername, inviterID: data.opponentID});
+    // clear notification
+    $("#info").empty();
   }));
-  // show accept buttons and emit accept or reject event to server to emit to opponent
 })
+
+socket.on('rejected_invite', function(data) {
+  $("#info").text("Sorry! " + data.rejecter + " rejected your invitation :(");
+});

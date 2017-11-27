@@ -22,7 +22,7 @@ exports.init = function(io) {
 			data['username'] = lobbyUsers[socket.id]; // show who sent the message
 			socket.emit('new_message', data);
       socket.broadcast.emit('new_message', data);
-		})
+		});
 
 		// processing invites to games
 		socket.on('invite', function(data) {
@@ -31,8 +31,12 @@ exports.init = function(io) {
 			var sender = data.sender;
 			var target_user = lobbyUsers[data.target_user];
 			// console.log(data.target_user);
-			socket.broadcast.to(data.target_user).emit('invite', {opponent: sender});
-		})
+			socket.broadcast.to(data.target_user).emit('invite', {opponent: sender, opponentID: socket.id});
+		});
+
+		socket.on('reject_game', function(data) {
+			socket.broadcast.to(data.inviterID).emit('rejected_invite', {rejecter: data.rejecter});
+		});
 
 		socket.on('disconnect', function () {
 		});
