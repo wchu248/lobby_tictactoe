@@ -1,5 +1,6 @@
 var socket = io.connect('/');
 var clientUsername;
+var clientSocketID;
 
 // show which user you are!
 socket.on('username', function(data) {
@@ -16,6 +17,8 @@ socket.on('joinlobby', function(data) {
         var target_user = $(this).attr('id');
         socket.emit('invite', {sender: clientUsername, target_user: target_user});
       }));
+    } else {
+      clientSocketID = socketID;
     }
   }
 });
