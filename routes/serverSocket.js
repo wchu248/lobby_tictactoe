@@ -55,11 +55,11 @@ exports.init = function(io) {
 			// randomly choose who goes first
 			var turn_num = Math.floor(Math.random() * 2) + 1;
 			// emit to client
-			socket.emit('start_game', {opponent: data.player2, opponentID: data.player2ID, 
+			socket.emit('next_turn', {opponent: data.player2, opponentID: data.player2ID, 
 																 gameBoard: gameBoard, your_turn: (turn_num == 1 ? true: false),
 																 symbol: (turn_num == 1 ? 'X': 'O')});
 			// emit to client's opponent
-			socket.broadcast.to(data.player2ID).emit('start_game', {opponent: data.player1, opponentID: data.player1ID, 
+			socket.broadcast.to(data.player2ID).emit('next_turn', {opponent: data.player1, opponentID: data.player1ID, 
 																															gameBoard: gameBoard, your_turn: (turn_num == 2 ? true: false),
 																															symbol: (turn_num == 1 ? 'O': 'X')})
 		});
@@ -67,6 +67,13 @@ exports.init = function(io) {
 		// when a move is made
 		socket.on('move_made', function(data) {
 			console.log('board:', data.gameBoard);
+			console.log(data);
+			socket.emit('next_turn', {opponent: data.opponent, opponentID: data.opponentID,
+																gameBoard: data.gameBoard, your_turn: !data.your_turn,
+															  symbol: data.symbol});
+			socket.broadcast.to(data.opponentID).emit('next_turn', {opponent: inGameUsers[socket.id], opponentID: socket.id,
+																															gameBoard: data.gameBoard, your_turn: true,
+																															symbol: (data.symbol == 'X' ? 'O' : 'X')});
 		});
 
 

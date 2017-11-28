@@ -128,13 +128,14 @@ socket.on('rejected_invite', function(data) {
 });
 
 // starting the game!
-socket.on('start_game', function(data) {
+socket.on('next_turn', function(data) {
   $("#info").empty();
   $("#playing_against").empty();
   // show game screen
   $("#welcome").hide();
   $("#lobby").hide();
   $("#game").show();
+  console.log(data);
   showGameInfo(data, clientUsername, clientSocketID);
 });
 
