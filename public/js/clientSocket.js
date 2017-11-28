@@ -20,7 +20,29 @@ function drawResignButton(data) {
 }
 
 function drawGameBoard(data) {
-  $("#board").text(data.gameBoard);
+  for (var r = 0; r < data.gameBoard.length; r++) {
+    for (var c = 0; c < data.gameBoard[0].length; c++) {
+      // set variables to check to draw edge borders
+      var top = r == 0 ? false : true;
+      var bottom = r == 2 ? false : true;
+      var left = c == 0 ? false : true;
+      var right = c == 2 ? false : true;
+      // set class to "cell" for general css purposes
+      var cell = $("<div>").attr('class', 'cell').attr('id', r + '_' + c)
+                            // css stuff for positioning and borders
+                            .css('top', r * (50) + 'px')
+                            .css('left', c * (50) + 'px')
+                            .css('border-top', top ? '1px solid black' : '1px solid white')
+                            .css('border-bottom', bottom ? '1px solid black' : '1px solid white')
+                            .css('border-left', left ? '1px solid black' : '1px solid white')
+                            .css('border-right', right ? '1px solid black' : '1px solid white')
+                            .on('click', function() {
+        // do logic for game here
+        console.log('clicked at ' + $(this).attr('id'));
+      });
+      $("#board").append(cell);
+    }
+  }
 }
 
 // show which user you are!
