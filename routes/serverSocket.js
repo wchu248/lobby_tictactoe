@@ -76,8 +76,8 @@ exports.init = function(io) {
 		});
 
 		socket.on('disconnect', function () {
-			delete inGameUsers[socket.id];
 			delete onlineUsers[socket.id];
+			delete inGameUsers[socket.id];
 			refreshLobby();
 		});
 	});
