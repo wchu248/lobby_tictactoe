@@ -51,15 +51,22 @@ exports.init = function(io) {
 			inGameUsers[data.player2ID] = data.player2;
 			refreshLobby();
 			// initialize the game for both players
-			var gameBoard = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
+			var gameBoard = [['', '', ''], ['', '', ''], ['', '', '']];
 			// randomly choose who goes first
 			var turn_num = Math.floor(Math.random() * 2) + 1;
 			// emit to client
 			socket.emit('start_game', {opponent: data.player2, opponentID: data.player2ID, 
-																 gameBoard: gameBoard, your_turn: (turn_num == 1 ? true: false)});
+																 gameBoard: gameBoard, your_turn: (turn_num == 1 ? true: false),
+																 symbol: (turn_num == 1 ? 'X': 'O')});
 			// emit to client's opponent
 			socket.broadcast.to(data.player2ID).emit('start_game', {opponent: data.player1, opponentID: data.player1ID, 
-																															gameBoard: gameBoard, your_turn: (turn_num == 2 ? true: false)})
+																															gameBoard: gameBoard, your_turn: (turn_num == 2 ? true: false),
+																															symbol: (turn_num == 1 ? 'O': 'X')})
+		});
+
+		// when a move is made
+		socket.on('move_made', function(data) {
+			console.log('board:', data.gameBoard);
 		});
 
 

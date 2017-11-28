@@ -45,13 +45,30 @@ function drawGameBoard(data, clientUsername, clientSocketID) {
                             .css('border-bottom', bottom ? '1px solid black' : '1px solid white')
                             .css('border-left', left ? '1px solid black' : '1px solid white')
                             .css('border-right', right ? '1px solid black' : '1px solid white')
+                            // show X's and O's
+                            .text(data.gameBoard[r][c])
                             .on('click', function() {
-        // do logic for game here
+        // do logic for game clicks here
         console.log('clicked at ' + $(this).attr('id'));
+        var row_col_str = $(this).attr('id'), row = row_col_str[0], col = row_col_str[2];
+        if (data.your_turn) {
+          makeMove(data, row, col, clientUsername, clientSocketID)
+        }
       });
       $("#board").append(cell);
     }
   }
+}
+
+function makeMove(data, r, c, clientUsername, clientSocketID) {
+  data.gameBoard[r][c] = data.symbol;
+  socket.emit('move_made', data);
+  // might have to check game over on server side? think about this...
+  checkGameOver(data, clientUsername, clientSocketID);
+}
+
+function checkGameOver(data, clientUsername, clientSocketID) {
+  // WRITE THIS
 }
 
 // show which user you are!
