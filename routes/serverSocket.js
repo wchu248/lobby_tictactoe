@@ -2,9 +2,15 @@ var onlineUsers = {};
 var inGameUsers = {};
 
 exports.init = function(io) {
-	var playerLobby = [];
+
   // When a new connection is initiated
 	io.on('connection', function (socket) {
+
+		// helper functions
+		function refreshLobby() {
+			socket.emit('joinlobby', {lobby: onlineUsers, inGameLobby: inGameUsers});
+			socket.broadcast.emit('joinlobby', {lobby: onlineUsers, inGameLobby: inGameUsers});
+		}
 
 		socket.on('login', function(data) {
 			// username is stored in data.username
@@ -14,8 +20,7 @@ exports.init = function(io) {
 			console.log("lobby: ");
 			console.log(onlineUsers);
 			socket.emit('username', {username: data.username});
-			socket.emit('joinlobby', {lobby: onlineUsers, inGameLobby: inGameUsers});
-			socket.broadcast.emit('joinlobby', {lobby: onlineUsers, inGameLobby: inGameUsers});
+			refreshLobby();
 		});
 
 		socket.on('new_message', function(data) {
@@ -44,9 +49,7 @@ exports.init = function(io) {
 			// make both players have in-game status
 			inGameUsers[data.player1ID] = data.player1;
 			inGameUsers[data.player2ID] = data.player2;
-			// refresh the online users list to change their status
-			socket.emit('joinlobby', {lobby: onlineUsers, inGameLobby: inGameUsers});
-			socket.broadcast.emit('joinlobby', {lobby: onlineUsers, inGameLobby: inGameUsers});
+			refreshLobby();
 			// start the game for both players
 			// emit to client
 			socket.emit('start_game', {opponent: data.player2, opponentID: data.player2ID});
@@ -63,12 +66,13 @@ exports.init = function(io) {
 			console.log(inGameUsers);
 			socket.emit('game_resigned', {resigner: true, opponentName: onlineUsers[data.opponentID]});
 			socket.broadcast.to(data.opponentID).emit('game_resigned', {resigner: false, opponentName: onlineUsers[data.resignerID]});
-			// refresh the lobby
-			socket.emit('joinlobby', {lobby: onlineUsers, inGameLobby: inGameUsers});
-			socket.broadcast.emit('joinlobby', {lobby: onlineUsers, inGameLobby: inGameUsers});
+			refreshLobby();
 		});
 
 		socket.on('disconnect', function () {
+			delete inGameUsers[socket.id];
+			delete onlineUsers[socket.id];
+			refreshLobby();
 		});
 	});
 }

@@ -16,6 +16,7 @@ $(function() { // DOM is ready
             $("#info").html(result);
           } else {
             // login
+            // show lobby
             $("#welcome").hide();
             $("#lobby").show();
             $("#game").hide();
@@ -44,6 +45,7 @@ $(function() { // DOM is ready
             $("#info").html(result);
           } else {
             // login
+            // show lobby
             $("#welcome").hide();
             $("#lobby").show();
             $("#game").hide();

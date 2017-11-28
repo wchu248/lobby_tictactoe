@@ -25,6 +25,7 @@ socket.on('joinlobby', function(data) {
       $("#online_users").append($("<button>").text(data.lobby[socketID]).attr('id', socketID).on('click', function() {
         var target_user = $(this).attr('id');
         socket.emit('invite', {sender: clientUsername, target_user: target_user});
+        $("#info").text("Sending an invition to " + data.lobby[socketID] + "...");
       }).css('background-color', color));
     } else {
       clientSocketID = socketID;
@@ -48,7 +49,7 @@ socket.on('invite', function(data) {
     // send message to inviter that invite is rejected
     socket.emit('reject_game', {rejecter: clientUsername, inviterID: data.opponentID});
     // clear notification
-    $("#info").empty();
+    $("#info").text("You rejected the invitation from " + data.opponent);
   }));
 })
 
@@ -61,6 +62,7 @@ socket.on('rejected_invite', function(data) {
 socket.on('start_game', function(data) {
   $("#info").empty();
   $("#playing_against").empty();
+  // show game screen
   $("#welcome").hide();
   $("#lobby").hide();
   $("#game").show();
@@ -82,6 +84,7 @@ socket.on('start_game', function(data) {
 
 // when a game is resigned, return both players to lobby
 socket.on('game_resigned', function(data) {
+  // show lobby
   $("#welcome").hide();
   $("#lobby").show();
   $("#game").hide();
