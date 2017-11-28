@@ -2,9 +2,18 @@ var socket = io.connect('/');
 var clientUsername;
 var clientSocketID;
 
-
 // helper functions
-function drawResignButton(data) {
+
+function showGameInfo(data, clientUsername, clientSocketID) {
+  $("#playing_against").text('Playing a game against ' + data.opponent);
+  $("#turn").text(data.your_turn ? 'Your turn' : 'Enemy turn');
+  // show resign button
+  drawResignButton(data, clientUsername, clientSocketID);
+  // draw the board
+  drawGameBoard(data, clientUsername, clientSocketID);
+}
+
+function drawResignButton(data, clientUsername, clientSocketID) {
   $("#resign_button").empty();
   $("#resign_button").append($("<button>").text("Resign Game").on('click', function() {
     // show confirmation for resigning game
@@ -19,7 +28,7 @@ function drawResignButton(data) {
   }));
 }
 
-function drawGameBoard(data) {
+function drawGameBoard(data, clientUsername, clientSocketID) {
   for (var r = 0; r < data.gameBoard.length; r++) {
     for (var c = 0; c < data.gameBoard[0].length; c++) {
       // set variables to check to draw edge borders
@@ -109,11 +118,7 @@ socket.on('start_game', function(data) {
   $("#welcome").hide();
   $("#lobby").hide();
   $("#game").show();
-  $("#playing_against").text('Playing a game against ' + data.opponent);
-  // show resign button
-  drawResignButton(data);
-  // draw the board
-  drawGameBoard(data);
+  showGameInfo(data, clientUsername, clientSocketID);
 });
 
 // when a game is resigned, return both players to lobby
