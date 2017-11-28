@@ -89,6 +89,16 @@ exports.init = function(io) {
 			refreshLobby();
 		});
 
+		socket.on('game_over', function(data) {
+			if (data.status == "tie") {
+				socket.emit('game_over', {status: "tie", opponent: inGameUsers[data.opponentID]});
+				socket.broadcast.to(data.opponentID).emit('game_over', {status: "tie", opponent: inGameUsers[socket.id]});
+			} else {
+				socket.emit('game_over', {status: "win", opponent: inGameUsers[data.opponentID]});
+				socket.broadcast.to(data.opponentID).emit('game_over', {status: "loss", opponent: inGameUsers[socket.id]});
+			}
+		});
+
 		socket.on('disconnect', function () {
 			delete onlineUsers[socket.id];
 			delete inGameUsers[socket.id];

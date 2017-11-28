@@ -49,7 +49,6 @@ function drawGameBoard(data, clientUsername, clientSocketID) {
                             .text(data.gameBoard[r][c])
                             .on('click', function() {
         // do logic for game clicks here
-        console.log('clicked at ' + $(this).attr('id'));
         var row_col_str = $(this).attr('id'), row = row_col_str[0], col = row_col_str[2];
         if (data.your_turn) {
           if (data.gameBoard[row][col] == '') {
@@ -71,13 +70,22 @@ function makeMove(data, r, c, clientUsername, clientSocketID) {
   data.gameBoard[r][c] = data.symbol;
   socket.emit('move_made', data);
   // check if game is over on client side to know if that person won
+  // gameStatus can either be true, false, or "tie"
   var gameStatus = checkGameOver(data.gameBoard);
-  console.log(gameStatus);
+  // only do something if the game ends
+  if (gameStatus == "tie") {
+    socket.emit('game_over', {status: "tie", opponentID: data.opponentID});
+  }
+  if (gameStatus == true) {
+    socket.emit('game_over', {status: "win", opponentID: data.opponentID});
+  }
 }
 
 function checkGameOver(board) {
-  // returns either true, false, or "tie"
-  console.log('checking game over...');
+  // check for ties
+  if (isBoardFull(board)) {
+    return "tie";
+  }
   // check horizontal wins
   for (var row = 0; row < board.length; row++) {
     if (board[row][0] != '' && board[row][0] == board[row][1] && board[row][1] == board[row][2]) {
@@ -95,10 +103,9 @@ function checkGameOver(board) {
     return true;
   }
   if (board[0][2] != '' && board[0][2] == board[1][1] && board[1][1] == board[2][0]) {
-    return true
+    return true;
   }
-  // check for ties
-  return isBoardFull(board) ? "tie" : false;
+  return false;
 }
 
 function isBoardFull(board) {
@@ -191,4 +198,17 @@ socket.on('game_resigned', function(data) {
   } else {
     $("#info").text(data.opponentName + " resigned the game against you. You win :)");
   }
+});
+
+socket.on('game_over', function(data) {
+  if (data.status == "tie") {
+    $("#info").text("The game against " + data.opponent + " ended in a tie.");
+  }
+  if (data.status == "loss") {
+    $("#info").text("You lost the game against " + data.opponent + " :(");
+  }
+  if (data.status == "win") {
+    $("#info").text("You won the game against " + data.opponent + " :)");
+  }
+  // draw button for returning to lobby
 });
