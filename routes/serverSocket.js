@@ -51,10 +51,11 @@ exports.init = function(io) {
 			inGameUsers[data.player2ID] = data.player2;
 			refreshLobby();
 			// start the game for both players
+			var gameBoard = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
 			// emit to client
-			socket.emit('start_game', {opponent: data.player2, opponentID: data.player2ID});
+			socket.emit('start_game', {opponent: data.player2, opponentID: data.player2ID, gameBoard: gameBoard});
 			// emit to client's opponent
-			socket.broadcast.to(data.player2ID).emit('start_game', {opponent: data.player1, opponentID: data.player1ID})
+			socket.broadcast.to(data.player2ID).emit('start_game', {opponent: data.player1, opponentID: data.player1ID, gameBoard: gameBoard})
 		});
 
 
@@ -63,6 +64,7 @@ exports.init = function(io) {
 			// remove them from in game lobby
 			delete inGameUsers[data.resignerID];
 			delete inGameUsers[data.opponentID];
+			console.log('inGameUsers:');
 			console.log(inGameUsers);
 			socket.emit('game_resigned', {resigner: true, opponentName: onlineUsers[data.opponentID]});
 			socket.broadcast.to(data.opponentID).emit('game_resigned', {resigner: false, opponentName: onlineUsers[data.resignerID]});

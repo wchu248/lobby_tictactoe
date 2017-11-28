@@ -2,6 +2,27 @@ var socket = io.connect('/');
 var clientUsername;
 var clientSocketID;
 
+
+// helper functions
+function drawResignButton(data) {
+  $("#resign_button").empty();
+  $("#resign_button").append($("<button>").text("Resign Game").on('click', function() {
+    // show confirmation for resigning game
+    $("#info").text("Are you sure you want to resign? You will the lose the game and return to the lobby.");
+    $("#info").append($("<button>").text("Yes").on('click', function() {
+      // return both players to the lobby
+      socket.emit('game_resigned', {resignerID: clientSocketID, opponentID: data.opponentID});
+    }));
+    $("#info").append($("<button>").text("No").on('click', function() {
+      $("#info").empty();
+    }));
+  }));
+}
+
+function drawGameBoard(data) {
+  $("#board").text(data.gameBoard);
+}
+
 // show which user you are!
 socket.on('username', function(data) {
   clientUsername = data.username;
@@ -68,18 +89,9 @@ socket.on('start_game', function(data) {
   $("#game").show();
   $("#playing_against").text('Playing a game against ' + data.opponent);
   // show resign button
-  $("#resign_button").empty();
-  $("#resign_button").append($("<button>").text("Resign Game").on('click', function() {
-    // show confirmation for resigning game
-    $("#info").text("Are you sure you want to resign? You will the lose the game and return to the lobby.");
-    $("#info").append($("<button>").text("Yes").on('click', function() {
-      // return both players to the lobby
-      socket.emit('game_resigned', {resignerID: clientSocketID, opponentID: data.opponentID});
-    }));
-    $("#info").append($("<button>").text("No").on('click', function() {
-      $("#info").empty();
-    }));
-  }));
+  drawResignButton(data);
+  // draw the board
+  drawGameBoard(data);
 });
 
 // when a game is resigned, return both players to lobby
