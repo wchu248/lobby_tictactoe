@@ -6,7 +6,7 @@ var clientSocketID;
 
 function showGameInfo(data, clientUsername, clientSocketID) {
   $("#playing_against").text('Playing a game against ' + data.opponent);
-  $("#turn").text(data.your_turn ? 'Your turn' : 'Enemy turn');
+  $("#turn").text(data.your_turn ? 'Your turn' : 'Opponent turn');
   // show resign button
   drawResignButton(data, clientUsername, clientSocketID);
   // draw the board
@@ -52,7 +52,14 @@ function drawGameBoard(data, clientUsername, clientSocketID) {
         console.log('clicked at ' + $(this).attr('id'));
         var row_col_str = $(this).attr('id'), row = row_col_str[0], col = row_col_str[2];
         if (data.your_turn) {
-          makeMove(data, row, col, clientUsername, clientSocketID)
+          if (data.gameBoard[row][col] == '') {
+            $("#info").empty();
+            makeMove(data, row, col, clientUsername, clientSocketID)
+          } else {
+            $("#info").text("Please choose an empty box to make your move.");
+          }
+        } else {
+          $("#info").text("It's not your turn!");
         }
       });
       $("#board").append(cell);
@@ -63,12 +70,46 @@ function drawGameBoard(data, clientUsername, clientSocketID) {
 function makeMove(data, r, c, clientUsername, clientSocketID) {
   data.gameBoard[r][c] = data.symbol;
   socket.emit('move_made', data);
-  // might have to check game over on server side? think about this...
-  checkGameOver(data, clientUsername, clientSocketID);
+  // check if game is over on client side to know if that person won
+  var gameStatus = checkGameOver(data.gameBoard);
+  console.log(gameStatus);
 }
 
-function checkGameOver(data, clientUsername, clientSocketID) {
-  // WRITE THIS
+function checkGameOver(board) {
+  // returns either true, false, or "tie"
+  console.log('checking game over...');
+  // check horizontal wins
+  for (var row = 0; row < board.length; row++) {
+    if (board[row][0] != '' && board[row][0] == board[row][1] && board[row][1] == board[row][2]) {
+      return true;
+    }
+  }
+  // check vertical wins
+  for (var col = 0; col < board.length; col++) {
+    if (board[0][col] != '' && board[0][col] == board[1][col] && board[1][col] == board[2][col]) {
+      return true;
+    }
+  }
+  // check diagonal wins
+  if (board[0][0] != '' && board[0][0] == board[1][1] && board[1][1] == board[2][2]) {
+    return true;
+  }
+  if (board[0][2] != '' && board[0][2] == board[1][1] && board[1][1] == board[2][0]) {
+    return true
+  }
+  // check for ties
+  return isBoardFull(board) ? "tie" : false;
+}
+
+function isBoardFull(board) {
+  for (var r = 0; r < board.length; r++) {
+    for (var c = 0; c < board[0].length; c++) {
+      if (board[r][c] == '') {
+        return false;
+      }
+    }
+  }
+  return true;
 }
 
 // show which user you are!
@@ -135,7 +176,6 @@ socket.on('next_turn', function(data) {
   $("#welcome").hide();
   $("#lobby").hide();
   $("#game").show();
-  console.log(data);
   showGameInfo(data, clientUsername, clientSocketID);
 });
 
