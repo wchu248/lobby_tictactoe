@@ -1,20 +1,5 @@
-#lobby {
-  /* initially hide this */
-  display: none;
-}
-
-#game {
-  /* initially hide this */
-  display: none;
-}
-
-#get_form {
-  /* initially hide this */
-  display: none;
-}
-
-#put_form {
-  /* initially hide this */
+#lobby, #game, #get_form, #put_form {
+  /* initially hide these */
   display: none;
 }
 
@@ -29,6 +14,6 @@
   background-color: white;
 }
 
-#welcome-buttons {
+#welcome-buttons, #login_button_row, #register_button_row {
   text-align: center;
 }

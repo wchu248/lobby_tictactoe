@@ -72,12 +72,12 @@ $(function() { // DOM is ready
     } 
   });
 
-  $("#login_button").on('click', function() {
+  $("#login_form_button").on('click', function() {
     $("#put_form").fadeOut();
     $("#get_form").fadeIn();
   });
 
-  $("#register_button").on('click', function() {
+  $("#register_form_button").on('click', function() {
     $("#get_form").fadeOut();
     $("#put_form").fadeIn();
   });

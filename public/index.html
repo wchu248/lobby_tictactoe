@@ -3,6 +3,8 @@
     <link rel="stylesheet" href="/css/styles.css">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <!-- Materialize icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- taken from Google's hosted jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- Compiled and minified JavaScript -->
@@ -17,18 +19,20 @@
   <body>
     <nav>
       <div class="nav-wrapper">
-        <div class="brand-logo center">Lobby Tic-Tac-Toe</div>
+        <div class="brand-logo center">Tic-Tac-Toe</div>
       </div>
     </nav>
+    <p id="username"></p>
+    <div id="info"></div>
     <div id="welcome">
       <div class="row">
-        <div class="col s6 offset-s3" id="welcome-buttons">
-          <button id="login_button" class="waves-effect waves-light btn">Login</button>
-          <button id="register_button" class="waves-effect waves-light btn">Register</button>
+        <div class="col s8 offset-s2" id="welcome-buttons">
+          <button id="login_form_button" class="waves-effect waves-light btn">Login</button>
+          <button id="register_form_button" class="waves-effect waves-light btn">Register</button>
         </div>
       </div>
       <div class="row">
-        <form class="col s6 offset-s3" id="get_form">
+        <form class="col s8 offset-s2" id="get_form">
           <div class="row">
             <div class="input-field">
               <input id="username1" name="username" type="text">
@@ -41,11 +45,15 @@
               <label for="password1">Password</label>
             </div>
           </div>
-          <input type="submit" value="Login">
+          <div class="row" id="login_button_row">
+            <button class="btn waves-effect waves-light" type="submit">Go
+              <i class="material-icons right">send</i>
+            </button>
+          </div>
         </form>
       </div>
       <div class="row">
-        <form class="col s6 offset-s3" id="put_form">
+        <form class="col s8 offset-s2" id="put_form">
           <div class="row">
             <div class="input-field">
               <input id="username2" name="username" type="text">
@@ -64,7 +72,11 @@
                 <label for="password_conf">Confirm Password</label>
               </div>
             </div>
-          <input type="submit" value="Register">
+          <div class="row" id="register_button_row">
+            <button class="btn waves-effect waves-light" type="submit">Go
+              <i class="material-icons right">send</i>
+            </button>
+          </div>
         </form>
       </div>
     </div>
