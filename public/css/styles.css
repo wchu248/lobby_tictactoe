@@ -14,6 +14,15 @@
   background-color: white;
 }
 
-#welcome-buttons, #login_button_row, #register_button_row {
+#welcome-buttons, #login_button_row, #register_button_row, #error {
   text-align: center;
+}
+
+#error {
+  display: none;
+  font-style: italic;
+  background-color: #FCC;
+  border: solid 1px #C66;
+	color: #800000;
+  padding: 5px 8px;
 }

@@ -1,6 +1,7 @@
 var socket;
 $(function() { // DOM is ready
   $("#get_form").submit(function(event) { // submit handler for logging in
+    $("#error").hide();
     // get values from form
     var username = $(this).find('input[name="username"]').val();
     var password = $(this).find('input[name="password"]').val();
@@ -13,7 +14,8 @@ $(function() { // DOM is ready
         success: function(result) {
           if (result == "error") {
             // do error shit
-            $("#info").html("Failed to login. Please try again.");
+            $("#error").show();
+            $("#error").html("Failed to login. Please try again.");
           } else {
             // login
             // show lobby
@@ -25,17 +27,20 @@ $(function() { // DOM is ready
         }
       });
     } else {
-      $('#info').html('Please fill out the form before searching for users!');
+      $("#error").show();
+      $('#error').html('Please fill out the form before searching for users!');
     }
     event.preventDefault(); // stop default submit action
   });
   $("#put_form").submit(function(event) { // submit handler for PUT form
+    $("#error").hide();
     // get value from form
     var username = $(this).find('input[name="username"]').val();
     var password = $(this).find('input[name="password"]').val();
     var password_conf = $(this).find('input[name="password_conf"]').val();
     if (password != password_conf) {
-      $('#info').html("Passwords don't match");
+      $("#error").show();
+      $('#error').html("Passwords don't match");
     } else if (password != "" && username != "") {
       var send_url = 'create?' + 'username=' + username + '&password=' + password;
       // do Ajax
@@ -45,7 +50,8 @@ $(function() { // DOM is ready
         success: function(result) {
           if (result == "error") {
             // do error shit
-            $("#info").html("Failed to create account. Please try again.");
+            $("#error").show();
+            $("#error").html("Failed to create account. Please try again.");
           } else {
             // login
             // show lobby
@@ -57,7 +63,8 @@ $(function() { // DOM is ready
         }
         });
     } else {
-      $('#info').html('Please fill out the form completely before creating a user!');
+      $("#error").show();
+      $('#error').html('Please fill out the form completely before creating a user!');
     }
     event.preventDefault(); // stop default submit action
   });
