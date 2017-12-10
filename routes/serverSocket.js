@@ -100,6 +100,11 @@ exports.init = function(io) {
 			refreshLobby();
 		});
 
+		socket.on('return_to_lobby', function(data) {
+			delete inGameUsers[socket.id];
+			refreshLobby();
+		});
+
 		socket.on('disconnect', function () {
 			delete onlineUsers[socket.id];
 			delete inGameUsers[socket.id];

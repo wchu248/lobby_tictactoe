@@ -50,7 +50,7 @@ function drawGameBoard(data, clientUsername, clientSocketID) {
                             .on('click', function() {
         // do logic for game clicks here
         var row_col_str = $(this).attr('id'), row = row_col_str[0], col = row_col_str[2];
-        if (data.your_turn) {
+        if (data.your_turn && !checkGameOver(data.gameBoard)) {
           if (data.gameBoard[row][col] == '') {
             $("#info").empty();
             makeMove(data, row, col, clientUsername, clientSocketID)
@@ -215,4 +215,13 @@ socket.on('game_over', function(data) {
     $("#info").text("You won the game against " + data.opponent + " :)");
   }
   // draw button for returning to lobby
+  $("#info").append($("<button>").text("Return to Lobby").on('click', function() {
+    $("#welcome").hide();
+    $("#lobby").show();
+    $("#game").hide();
+    $("#info").empty();
+    $("#playing_against").empty();
+    $("#info").text("You rejected the invitation from " + data.opponent);
+    socket.emit('return_to_lobby', data);
+  }));
 });
