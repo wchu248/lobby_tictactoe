@@ -15,6 +15,8 @@ app.use(morgan('tiny'));
 // parse application/x-www-form-urlencoded, with extended qs library
 app.use(bodyParser.urlencoded({extended: true}));
 
+app.set('view engine', 'html');
+
 // Load all routes in routes directory
 fs.readdirSync('./routes').forEach(function (file) {
   // There might be non-js file iin dir that should not be loaded

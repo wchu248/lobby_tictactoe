@@ -16,6 +16,7 @@ $(function() { // DOM is ready
             $("#info").html(result);
           } else {
             // login
+            // show lobby
             $("#welcome").hide();
             $("#lobby").show();
             $("#game").hide();
@@ -44,6 +45,7 @@ $(function() { // DOM is ready
             $("#info").html(result);
           } else {
             // login
+            // show lobby
             $("#welcome").hide();
             $("#lobby").show();
             $("#game").hide();
@@ -61,9 +63,10 @@ $(function() { // DOM is ready
   $('#message_field').submit(function(event){
     event.preventDefault();
     var message = $('#message_text').val();
-    $('#message_text').val('');
-    console.log(message);
-    socket.emit('new_message', {message: message});
+    if (message != "") {
+      $('#message_text').val('');
+      socket.emit('new_message', {message: message});
+    } 
   });
   
 });
