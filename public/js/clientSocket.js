@@ -141,8 +141,12 @@ socket.on('joinlobby', function(data) {
       }
       $("#online_users").append($("<button>").text(data.lobby[socketID]).attr('id', socketID).on('click', function() {
         var target_user = $(this).attr('id');
-        socket.emit('invite', {sender: clientUsername, target_user: target_user});
-        $("#info").text("Sending an invition to " + data.lobby[target_user] + "...");
+        if (Object.values(data.inGameLobby).indexOf(data.lobby[socketID]) > -1) {
+          $("#info").text("Sorry! " + data.lobby[target_user] + " is currently in a game.");
+        } else {
+          socket.emit('invite', {sender: clientUsername, target_user: target_user});
+          $("#info").text("Sending an invition to " + data.lobby[target_user] + "...");
+        }
       }).css('background-color', color));
     } else {
       clientSocketID = socketID;

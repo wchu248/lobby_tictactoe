@@ -14,11 +14,8 @@ exports.init = function(io) {
 
 		socket.on('login', function(data) {
 			// username is stored in data.username
-			console.log("username: " + data.username);
 			socket.userId = data.username;  
 			onlineUsers[socket.id] = data.username;
-			console.log("lobby: ");
-			console.log(onlineUsers);
 			socket.emit('username', {username: data.username});
 			refreshLobby();
 		});
@@ -27,7 +24,8 @@ exports.init = function(io) {
 			// message is stored in data.message
 			data['username'] = onlineUsers[socket.id]; // show who sent the message
 			socket.emit('new_message', data);
-      socket.broadcast.emit('new_message', data);
+			socket.broadcast.emit('new_message', data);
+			refreshLobby();
 		});
 
 		// processing invites to games
@@ -37,11 +35,13 @@ exports.init = function(io) {
 			var sender = data.sender;
 			var target_user = onlineUsers[data.target_user];
 			socket.broadcast.to(data.target_user).emit('invite', {opponent: sender, opponentID: socket.id});
+			refreshLobby();
 		});
 
 		// rejecting games
 		socket.on('reject_game', function(data) {
 			socket.broadcast.to(data.inviterID).emit('rejected_invite', {rejecter: data.rejecter});
+			refreshLobby();
 		});
 
 		// accepting games
@@ -97,6 +97,7 @@ exports.init = function(io) {
 				socket.emit('game_over', {status: "win", opponent: inGameUsers[data.opponentID]});
 				socket.broadcast.to(data.opponentID).emit('game_over', {status: "loss", opponent: inGameUsers[socket.id]});
 			}
+			refreshLobby();
 		});
 
 		socket.on('disconnect', function () {
