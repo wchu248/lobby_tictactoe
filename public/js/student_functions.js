@@ -33,7 +33,10 @@ $(function() { // DOM is ready
     // get value from form
     var username = $(this).find('input[name="username"]').val();
     var password = $(this).find('input[name="password"]').val();
-    if (password != "" && username != "") {
+    var password_conf = $(this).find('input[name="password_conf"]').val();
+    if (password != password_conf) {
+      $('#info').html("Passwords don't match");
+    } else if (password != "" && username != "") {
       var send_url = 'create?' + 'username=' + username + '&password=' + password;
       // do Ajax
       $.ajax({
@@ -67,6 +70,16 @@ $(function() { // DOM is ready
       $('#message_text').val('');
       socket.emit('new_message', {message: message});
     } 
+  });
+
+  $("#login_button").on('click', function() {
+    $("#put_form").fadeOut();
+    $("#get_form").fadeIn();
+  });
+
+  $("#register_button").on('click', function() {
+    $("#get_form").fadeOut();
+    $("#put_form").fadeIn();
   });
   
 });

@@ -1,31 +1,70 @@
 <html>
   <head>
     <link rel="stylesheet" href="/css/styles.css">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <!-- taken from Google's hosted jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/clientSocket.js"></script>
     <script src="/js/student_functions.js"></script>
     <title>Lobby Tic-Tac-Toe</title>
   </head>
   <body>
-    <h2>Tic-Tac-Toe</h2>
-    <p id="username"></p>
-    <div id="info"></div>
+    <nav>
+      <div class="nav-wrapper">
+        <div class="brand-logo center">Lobby Tic-Tac-Toe</div>
+      </div>
+    </nav>
     <div id="welcome">
-      <h4>Login or Register to get Started</h4>
-      <form id="get_form">
-        Enter a username or password to login:<br>
-        Username: <input type="text" name="username"><br>
-        Password: <input type="password" name="password"><br>
-        <input type="submit" value="Login">
-      </form>
-      <form id="put_form" method="get" action="/create">
-        Use this form to register:<br>
-        Username: <input type="text" name="username"><br>
-        Password: <input type="text" name="password"><br>
-        <input type="submit" value="Register">
-      </form>
+      <div class="row">
+        <div class="col s6 offset-s3" id="welcome-buttons">
+          <button id="login_button" class="waves-effect waves-light btn">Login</button>
+          <button id="register_button" class="waves-effect waves-light btn">Register</button>
+        </div>
+      </div>
+      <div class="row">
+        <form class="col s6 offset-s3" id="get_form">
+          <div class="row">
+            <div class="input-field">
+              <input id="username1" name="username" type="text">
+              <label for="username1">Username</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field">
+              <input id="password1" name="password" type="password">
+              <label for="password1">Password</label>
+            </div>
+          </div>
+          <input type="submit" value="Login">
+        </form>
+      </div>
+      <div class="row">
+        <form class="col s6 offset-s3" id="put_form">
+          <div class="row">
+            <div class="input-field">
+              <input id="username2" name="username" type="text">
+              <label for="username2">Username</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field">
+              <input id="password2" name="password" type="password">
+              <label for="password2">Password</label>
+            </div>
+          </div>
+          <div class="row">
+              <div class="input-field">
+                <input id="password_conf" name="password_conf" type="password">
+                <label for="password_conf">Confirm Password</label>
+              </div>
+            </div>
+          <input type="submit" value="Register">
+        </form>
+      </div>
     </div>
     <div id="lobby">
       <p>Other Online Users Now:</p>
