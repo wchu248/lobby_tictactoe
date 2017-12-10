@@ -13,7 +13,7 @@ $(function() { // DOM is ready
         success: function(result) {
           if (result == "error") {
             // do error shit
-            $("#info").html(result);
+            $("#info").html("Failed to login. Please try again.");
           } else {
             // login
             // show lobby
@@ -45,7 +45,7 @@ $(function() { // DOM is ready
         success: function(result) {
           if (result == "error") {
             // do error shit
-            $("#info").html(result);
+            $("#info").html("Failed to create account. Please try again.");
           } else {
             // login
             // show lobby
