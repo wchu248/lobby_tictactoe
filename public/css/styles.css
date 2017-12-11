@@ -14,7 +14,7 @@
   background-color: white;
 }
 
-#welcome-buttons, #login_button_row, #register_button_row, #error, #username, #info {
+#welcome-buttons, #login_button_row, #register_button_row, #error, #info {
   text-align: center;
 }
 
@@ -34,10 +34,6 @@
   border: solid 1px rgb(204, 148, 102);
 	color: #ec8702;
   padding: 5px 8px;
-}
-
-#username {
-  font-weight: bold;
 }
 
 #messages {

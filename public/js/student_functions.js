@@ -23,7 +23,6 @@ $(function() { // DOM is ready
             $("#lobby").show();
             $("#game").hide();
             $("#info").hide();
-            $("#username").show();
             $("#error").hide();
             $("#logout").hide();
             socket.emit('login', {username: result});
@@ -63,7 +62,6 @@ $(function() { // DOM is ready
             $("#lobby").show();
             $("#game").hide();
             $("#info").hide();
-            $("#username").show();
             $("#error").hide();
             $("#logout").hide();
             socket.emit('login', {username: result});

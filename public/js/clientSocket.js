@@ -237,6 +237,7 @@ socket.on('game_over', function(data) {
     $("#info").show();
   }
   // draw button for returning to lobby
+  $("#info").append($("<br>"));
   $("#info").append($("<button>").text("Return to Lobby").on('click', function() {
     $("#welcome").hide();
     $("#lobby").show();
@@ -258,7 +259,7 @@ socket.on('confirm_logout', function() {
     $("#game").hide();
     $("#info").show();
     $("#info").text("Logged out!");
-    $("#username").hide();
+    $("#username").text("");
     $("#error").hide();
     $("#logout").hide();
     socket.emit('logout_confirmed', {opponentID: $("#opponent_id").text()});
@@ -277,6 +278,9 @@ socket.on('opponent_logout', function(data) {
 });
 
 socket.on('logout_successful', function() {
+  $("#username").text("");
+  $("#info").show();
+  $("#info").text("Logged out!");
   $("#welcome").show();
   $("#lobby").hide();
   $("#game").hide();
