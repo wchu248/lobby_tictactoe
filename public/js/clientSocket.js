@@ -157,6 +157,8 @@ socket.on('joinlobby', function(data) {
 // message box
 socket.on('new_message', function(data) {
   $('#messages').append($('<li>').text(data.username + ": " + data.message));
+  var elem = document.getElementById('messages');
+  elem.scrollTop = elem.scrollHeight;
 });
 
 // when you receive an invite

@@ -30,3 +30,14 @@
 #username {
   font-weight: bold;
 }
+
+#messages {
+  height: 30%;
+  overflow: scroll;
+  border: solid 1px black;
+  padding: 10px;
+}
+
+#message_area {
+  border: solid 1px black;
+}

@@ -73,8 +73,10 @@ $(function() { // DOM is ready
   $('#message_field').submit(function(event){
     event.preventDefault();
     var message = $('#message_text').val();
-    if (message != "") {
+    if (message != "" && message.replace(/\s/g, '').length) {
       $('#message_text').val('');
+      var elem = document.getElementById('messages');
+      elem.scrollTop = elem.scrollHeight; 
       socket.emit('new_message', {message: message});
     } 
   });
