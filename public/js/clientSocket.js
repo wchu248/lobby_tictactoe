@@ -53,7 +53,7 @@ function drawGameBoard(data, clientUsername, clientSocketID) {
                             .on('click', function() {
         // do logic for game clicks here
         var row_col_str = $(this).attr('id'), row = row_col_str[0], col = row_col_str[2];
-        if (data.your_turn && !checkGameOver(data.gameBoard)) {
+        if (data.your_turn && checkGameOver(data.gameBoard) == false) {
           if (data.gameBoard[row][col] == '') {
             $("#info").hide();
             makeMove(data, row, col, clientUsername, clientSocketID)
@@ -63,7 +63,21 @@ function drawGameBoard(data, clientUsername, clientSocketID) {
           }
         } else {
           $("#info").show();
-          $("#info").text("It's not your turn!");
+          if (checkGameOver(data.gameBoard) == true || checkGameOver(data.gameBoard) == "tie") {
+            $("#info").text("The game is over already!");
+            // draw button for returning to lobby
+            $("#info").append($("<br>"));
+            $("#info").append($("<button>").text("Return to Lobby").on('click', function() {
+              $("#welcome").hide();
+              $("#lobby").show();
+              $("#game").hide();
+              $("#info").hide();
+              $("#playing_against").empty();
+              socket.emit('return_to_lobby', data);
+            }));
+          } else {
+            $("#info").text("It's not your turn!");
+          }
         }
       });
       $("#board").append(cell);
@@ -242,9 +256,8 @@ socket.on('game_over', function(data) {
     $("#welcome").hide();
     $("#lobby").show();
     $("#game").hide();
-    $("#info").show();
+    $("#info").hide();
     $("#playing_against").empty();
-    $("#info").text("You rejected the invitation from " + data.opponent);
     socket.emit('return_to_lobby', data);
   }));
 });
