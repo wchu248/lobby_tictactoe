@@ -22,7 +22,7 @@
         <div class="brand-logo center">Tic-Tac-Toe</div>
       </div>
     </nav>
-    <p id="username"></p>
+    <div id="username"></div>
     <div id="info"></div>
     <div id="error"></div>
     </br>
@@ -88,14 +88,22 @@
       </div>
     </div>
     <div id="lobby">
-      <p>Other Online Users Now:</p>
-      <div id="online_users"></div>
-      <p>Messages:</p>
-      <div id="messages"></div>
-      <br>
-      <form id="message_field">
-        <input id="message_text" autocomplete="off"/><input type="submit" value="Send"></input>
-      </form>
+      <div class="row">
+        <div class="col s8 offset-s2" id="message_area">
+          <p>Messages:</p>
+          <div id="messages"></div>
+          <br>
+          <form id="message_field">
+            <input id="message_text" autocomplete="off"/><input type="submit" value="Send"></input>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s8 offset-s2" id="online_users">
+          <p>Other Online Users Now:</p>
+          <div id="online_user_list"></div>
+        </div>
+      </div>
     </div>
     <div id="game">
       <p id="playing_against"></p>

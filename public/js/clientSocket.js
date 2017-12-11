@@ -128,7 +128,7 @@ socket.on('username', function(data) {
 // show when a new user joins
 socket.on('joinlobby', function(data) {
   var color;
-  document.getElementById('online_users').innerHTML = '';
+  document.getElementById('online_user_list').innerHTML = '';
   for (var socketID in data.lobby) {
     if (clientUsername != data.lobby[socketID]) {
       // set color of button based on status of that user
@@ -139,7 +139,7 @@ socket.on('joinlobby', function(data) {
         // green if hanging out in lobby
         color = "green";
       }
-      $("#online_users").append($("<button>").text(data.lobby[socketID]).attr('id', socketID).on('click', function() {
+      $("#online_user_list").append($("<button>").text(data.lobby[socketID]).attr('id', socketID).on('click', function() {
         var target_user = $(this).attr('id');
         if (Object.values(data.inGameLobby).indexOf(data.lobby[socketID]) > -1) {
           $("#info").text("Sorry! " + data.lobby[target_user] + " is currently in a game.");
@@ -147,7 +147,7 @@ socket.on('joinlobby', function(data) {
           socket.emit('invite', {sender: clientUsername, target_user: target_user});
           $("#info").text("Sending an invition to " + data.lobby[target_user] + "...");
         }
-      }).css('background-color', color));
+      }).css('background-color', color).css('margin-right', '10px').css('margin-bottom', '10px'));
     } else {
       clientSocketID = socketID;
     }
