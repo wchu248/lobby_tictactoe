@@ -141,7 +141,7 @@ socket.on('joinlobby', function(data) {
         color = "orange";
       } else {
         // green if hanging out in lobby
-        color = "green";
+        color = "rgb(66, 183, 42)";
       }
       $("#online_user_list").append($("<button>").text(data.lobby[socketID]).attr('id', socketID).on('click', function() {
         var target_user = $(this).attr('id');
