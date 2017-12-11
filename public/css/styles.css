@@ -42,8 +42,18 @@
   border: solid 1px black;
 }
 
-#message_field {
-  display: inline-flex;
+@media only screen and (max-device-width: 768px) {
+  /* Styles */
+  #message_field {
+    display: inherit;
+  }
+}
+
+@media only screen and (min-device-width: 767px) {
+  /* Styles */
+  #message_field {
+    display: inline-flex;
+  }
 }
 
 #message_send {
