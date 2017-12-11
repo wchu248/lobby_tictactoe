@@ -104,6 +104,26 @@ exports.init = function(io) {
 			delete inGameUsers[socket.id];
 			refreshLobby();
 		});
+		
+		socket.on('logout', function() {
+			if (Object.values(inGameUsers).indexOf(inGameUsers[socket.id]) > -1) {
+				console.log('confirm logout');
+				socket.emit('confirm_logout');
+			} else {
+				socket.emit('logout_successful');
+				delete onlineUsers[socket.id];
+				delete inGameUsers[socket.id];
+				refreshLobby();
+			}
+		});
+
+		socket.on('logout_confirmed', function(data) {
+			socket.broadcast.to(data.opponentID).emit('opponent_logout', {opponent: onlineUsers[socket.id]});
+			delete onlineUsers[socket.id];
+			delete inGameUsers[socket.id];
+			delete inGameUsers[data.opponentID];
+			refreshLobby();
+		});
 
 		socket.on('disconnect', function () {
 			delete onlineUsers[socket.id];

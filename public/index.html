@@ -19,7 +19,10 @@
   <body>
     <nav>
       <div class="nav-wrapper">
-        <div class="brand-logo center">Tic-Tac-Toe</div>
+        <a class="brand-logo center">Tic-Tac-Toe</a>
+        <ul id="nav-mobile" class="right">
+          <li><a id="logout">Logout</a></li>
+        </ul>
       </div>
     </nav>
     <div id="username"></div>
@@ -111,6 +114,7 @@
     </div>
     <div id="game">
       <p id="playing_against"></p>
+      <div id="opponent_id"></div>
       <div id="resign_button"></div>
       <p id="turn"></p>
       <div id="board"></div>

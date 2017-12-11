@@ -22,6 +22,10 @@ $(function() { // DOM is ready
             $("#welcome").hide();
             $("#lobby").show();
             $("#game").hide();
+            $("#info").hide();
+            $("#username").show();
+            $("#error").hide();
+            $("#logout").hide();
             socket.emit('login', {username: result});
           }
         }
@@ -58,6 +62,10 @@ $(function() { // DOM is ready
             $("#welcome").hide();
             $("#lobby").show();
             $("#game").hide();
+            $("#info").hide();
+            $("#username").show();
+            $("#error").hide();
+            $("#logout").hide();
             socket.emit('login', {username: result});
           }
         }
@@ -102,6 +110,10 @@ $(function() { // DOM is ready
   $("#register_form_button").on('click', function() {
     $("#get_form").fadeOut();
     $("#put_form").fadeIn();
+  });
+
+  $("#logout").on('click', function() {
+    socket.emit('logout');
   });
   
 });

@@ -6,6 +6,7 @@ var clientSocketID;
 
 function showGameInfo(data, clientUsername, clientSocketID) {
   $("#playing_against").text('Playing a game against ' + data.opponent);
+  $("#opponent_id").text(data.opponentID);
   $("#turn").text(data.your_turn ? 'Your turn' : 'Opponent turn');
   // show resign button
   drawResignButton(data, clientUsername, clientSocketID);
@@ -127,6 +128,7 @@ function isBoardFull(board) {
 socket.on('username', function(data) {
   clientUsername = data.username;
   $("#username").text("Welcome, " + data.username);
+  $("#logout").show();
 });
 
 // show when a new user joins
@@ -221,6 +223,7 @@ socket.on('game_resigned', function(data) {
 
 socket.on('game_over', function(data) {
   $("#info").hide();
+  $("#resign_button").empty();
   if (data.status == "tie") {
     $("#info").text("The game against " + data.opponent + " ended in a tie.");
     $("#info").show();
@@ -243,4 +246,38 @@ socket.on('game_over', function(data) {
     $("#info").text("You rejected the invitation from " + data.opponent);
     socket.emit('return_to_lobby', data);
   }));
+});
+
+socket.on('confirm_logout', function() {
+  $("#info").show();
+  $("#info").text("Are you sure you want to log out? You will resign this game.");
+  $("#info").append($("<br>"));
+  $("#info").append($("<button>").text("Yes").on('click', function() {
+    $("#welcome").show();
+    $("#lobby").hide();
+    $("#game").hide();
+    $("#info").show();
+    $("#info").text("Logged out!");
+    $("#username").hide();
+    $("#error").hide();
+    $("#logout").hide();
+    socket.emit('logout_confirmed', {opponentID: $("#opponent_id").text()});
+  }));
+  $("#info").append($("<button>").text("No").on('click', function() {
+    $("#info").hide();
+  }));
+});
+
+socket.on('opponent_logout', function(data) {
+  $("#info").show();
+  $("#info").text(data.opponent + " logged out and resigned the game against you. You win :)");
+  $("#welcome").hide();
+  $("#lobby").show();
+  $("#game").hide();
+});
+
+socket.on('logout_successful', function() {
+  $("#welcome").show();
+  $("#lobby").hide();
+  $("#game").hide();
 });

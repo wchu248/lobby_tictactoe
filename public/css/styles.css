@@ -1,4 +1,4 @@
-#lobby, #game, #get_form, #put_form {
+#lobby, #game, #get_form, #put_form, #logout, #opponent_id {
   /* initially hide these */
   display: none;
 }
