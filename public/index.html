@@ -92,9 +92,14 @@
         <div class="col s8 offset-s2" id="message_area">
           <p>Messages:</p>
           <div id="messages"></div>
-          <form id="message_field">
-            <input id="message_text" autocomplete="off"/><input type="submit" value="Send"></input>
-          </form>
+          <div class="row">
+            <div class="input-field col s12" id="message_field">
+              <input id="message_text" name="message_text" type="text" placeholder="Enter a message...">
+              <div id="message_send">
+                <button class="btn waves-effect waves-light" id="message_send_button">Send</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="row">

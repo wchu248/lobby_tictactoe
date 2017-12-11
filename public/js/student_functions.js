@@ -70,8 +70,21 @@ $(function() { // DOM is ready
   });
 
   // dealing with messages
-  $('#message_field').submit(function(event){
-    event.preventDefault();
+  $("#message_text").keypress(function(event) {
+    // if enter pressed, send the message
+    if (event.which == 13) {
+      var message = $('#message_text').val();
+      if (message != "" && message.replace(/\s/g, '').length) {
+        $('#message_text').val('');
+        var elem = document.getElementById('messages');
+        elem.scrollTop = elem.scrollHeight; 
+        socket.emit('new_message', {message: message});
+      } 
+    }
+  });
+
+  // send the message when the send button is clicked
+  $("#message_send_button").click(function() {
     var message = $('#message_text').val();
     if (message != "" && message.replace(/\s/g, '').length) {
       $('#message_text').val('');

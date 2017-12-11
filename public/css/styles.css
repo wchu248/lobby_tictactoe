@@ -41,3 +41,12 @@
 #message_area {
   border: solid 1px black;
 }
+
+#message_field {
+  display: inline-flex;
+}
+
+#message_send {
+  margin-left: 1%;
+  margin-top: 1%;
+}
