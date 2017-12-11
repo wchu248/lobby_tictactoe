@@ -16,14 +16,16 @@ function showGameInfo(data, clientUsername, clientSocketID) {
 function drawResignButton(data, clientUsername, clientSocketID) {
   $("#resign_button").empty();
   $("#resign_button").append($("<button>").text("Resign Game").on('click', function() {
+    $("#info").show();
     // show confirmation for resigning game
     $("#info").text("Are you sure you want to resign? You will the lose the game and return to the lobby.");
+    $("#info").append($("<br>"));
     $("#info").append($("<button>").text("Yes").on('click', function() {
       // return both players to the lobby
       socket.emit('game_resigned', {resignerID: clientSocketID, opponentID: data.opponentID});
     }));
     $("#info").append($("<button>").text("No").on('click', function() {
-      $("#info").empty();
+      $("#info").hide();
     }));
   }));
 }
@@ -52,12 +54,14 @@ function drawGameBoard(data, clientUsername, clientSocketID) {
         var row_col_str = $(this).attr('id'), row = row_col_str[0], col = row_col_str[2];
         if (data.your_turn && !checkGameOver(data.gameBoard)) {
           if (data.gameBoard[row][col] == '') {
-            $("#info").empty();
+            $("#info").hide();
             makeMove(data, row, col, clientUsername, clientSocketID)
           } else {
+            $("#info").show();
             $("#info").text("Please choose an empty box to make your move.");
           }
         } else {
+          $("#info").show();
           $("#info").text("It's not your turn!");
         }
       });
@@ -142,9 +146,11 @@ socket.on('joinlobby', function(data) {
       $("#online_user_list").append($("<button>").text(data.lobby[socketID]).attr('id', socketID).on('click', function() {
         var target_user = $(this).attr('id');
         if (Object.values(data.inGameLobby).indexOf(data.lobby[socketID]) > -1) {
+          $("#info").show();
           $("#info").text("Sorry! " + data.lobby[target_user] + " is currently in a game.");
         } else {
           socket.emit('invite', {sender: clientUsername, target_user: target_user});
+          $("#info").show();
           $("#info").text("Sending an invition to " + data.lobby[target_user] + "...");
         }
       }).css('background-color', color).css('margin-right', '10px').css('margin-bottom', '10px'));
@@ -163,7 +169,9 @@ socket.on('new_message', function(data) {
 
 // when you receive an invite
 socket.on('invite', function(data) {
+  $("#info").show();
   $("#info").text("You received an invite to play from " + data.opponent + "!");
+  $("#info").append($("<br>"));
   $("#info").append($("<button>").text("Accept").on('click', function() {
     // do stuff when accepting game
     socket.emit('accept_game', {player1: clientUsername, player1ID: clientSocketID, player2: data.opponent, player2ID: data.opponentID});
@@ -172,18 +180,20 @@ socket.on('invite', function(data) {
     // send message to inviter that invite is rejected
     socket.emit('reject_game', {rejecter: clientUsername, inviterID: data.opponentID});
     // clear notification
+    $("#info").show();
     $("#info").text("You rejected the invitation from " + data.opponent);
   }));
 })
 
 // when you reject an invite
 socket.on('rejected_invite', function(data) {
+  $("#info").show();
   $("#info").text("Sorry! " + data.rejecter + " rejected your invitation :(");
 });
 
 // starting the game!
 socket.on('next_turn', function(data) {
-  $("#info").empty();
+  $("#info").hide();
   $("#playing_against").empty();
   // show game screen
   $("#welcome").hide();
@@ -194,34 +204,41 @@ socket.on('next_turn', function(data) {
 
 // when a game is resigned, return both players to lobby
 socket.on('game_resigned', function(data) {
+  $("#info").hide();
   // show lobby
   $("#welcome").hide();
   $("#lobby").show();
   $("#game").hide();
   $("#playing_against").empty();
   if (data.resigner) {
+    $("#info").show();
     $("#info").text("You resigned the game against " + data.opponentName + ". You lose :(");
   } else {
+    $("#info").show();
     $("#info").text(data.opponentName + " resigned the game against you. You win :)");
   }
 });
 
 socket.on('game_over', function(data) {
+  $("#info").hide();
   if (data.status == "tie") {
     $("#info").text("The game against " + data.opponent + " ended in a tie.");
+    $("#info").show();
   }
   if (data.status == "loss") {
     $("#info").text("You lost the game against " + data.opponent + " :(");
+    $("#info").show();
   }
   if (data.status == "win") {
     $("#info").text("You won the game against " + data.opponent + " :)");
+    $("#info").show();
   }
   // draw button for returning to lobby
   $("#info").append($("<button>").text("Return to Lobby").on('click', function() {
     $("#welcome").hide();
     $("#lobby").show();
     $("#game").hide();
-    $("#info").empty();
+    $("#info").show();
     $("#playing_against").empty();
     $("#info").text("You rejected the invitation from " + data.opponent);
     socket.emit('return_to_lobby', data);
