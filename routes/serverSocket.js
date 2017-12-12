@@ -62,11 +62,11 @@ exports.init = function(io) {
 			// emit to client
 			socket.emit('next_turn', {opponent: data.player2, opponentID: data.player2ID, 
 																 gameBoard: gameBoard, your_turn: (turn_num == 1 ? true: false),
-																 symbol: (turn_num == 1 ? 'X': 'O')});
+																 symbol: (turn_num == 1 ? 'X': 'O'), color: (turn_num == 1 ? 'red': 'blue')});
 			// emit to client's opponent
 			socket.broadcast.to(data.player2ID).emit('next_turn', {opponent: data.player1, opponentID: data.player1ID, 
 																															gameBoard: gameBoard, your_turn: (turn_num == 2 ? true: false),
-																															symbol: (turn_num == 1 ? 'O': 'X')})
+																															symbol: (turn_num == 1 ? 'O': 'X'), color: (turn_num == 1 ? 'blue': 'red')})
 		});
 
 		// when a move is made
@@ -75,10 +75,10 @@ exports.init = function(io) {
 			console.log(data);
 			socket.emit('next_turn', {opponent: data.opponent, opponentID: data.opponentID,
 																gameBoard: data.gameBoard, your_turn: !data.your_turn,
-															  symbol: data.symbol});
+															  symbol: data.symbol, cell_letter: data.cell_letter});
 			socket.broadcast.to(data.opponentID).emit('next_turn', {opponent: inGameUsers[socket.id], opponentID: socket.id,
 																															gameBoard: data.gameBoard, your_turn: true,
-																															symbol: (data.symbol == 'X' ? 'O' : 'X')});
+																															symbol: (data.symbol == 'X' ? 'O' : 'X'), cell_letter: data.cell_letter});
 		});
 
 

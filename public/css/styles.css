@@ -13,10 +13,14 @@
   width: 50px;
   height: 50px;
   background-color: white;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 50px;
+  font-size: 40px;
 }
 
 #welcome-buttons, #login_button_row, #register_button_row, #error, #info, 
-#playing_against, #resign_button, #turn, #board_wrapper {
+#playing_against, #resign_button, #turn, #board_wrapper, #symbol {
   text-align: center;
 }
 
@@ -41,9 +45,20 @@
 #playing_against {
   background-color: #CFC;
   border: solid 1px #6C6;
+  border-bottom: none;
 	color: #00AB56;
   padding: 5px 8px;
   font-style: italic;
+}
+
+#symbol {
+  background-color: #CFC;
+  border: solid 1px #6C6;
+  border-top: none;
+	color: #00AB56;
+  padding: 5px 8px;
+  font-style: italic;
+  margin-bottom: 10px;
 }
 
 #turn {

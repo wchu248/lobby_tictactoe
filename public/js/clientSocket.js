@@ -5,7 +5,8 @@ var clientSocketID;
 // helper functions
 
 function showGameInfo(data, clientUsername, clientSocketID) {
-  $("#playing_against").text('Playing a game against ' + data.opponent);
+  $("#playing_against").text('Playing a game against ' + data.opponent + '.' );
+  $("#symbol").text('Your symbol: ' + data.symbol);
   $("#opponent_id").text(data.opponentID);
   $("#turn").text(data.your_turn ? 'Your turn' : 'Opponent turn');
   // show resign button
@@ -48,6 +49,7 @@ function drawGameBoard(data, clientUsername, clientSocketID) {
                             .css('border-bottom', bottom ? '1px solid black' : '1px solid white')
                             .css('border-left', left ? '1px solid black' : '1px solid white')
                             .css('border-right', right ? '1px solid black' : '1px solid white')
+                            .css('color', data.gameBoard[r][c] == 'X' ? 'red' : 'blue')
                             // show X's and O's
                             .text(data.gameBoard[r][c])
                             .on('click', function() {
@@ -73,6 +75,7 @@ function drawGameBoard(data, clientUsername, clientSocketID) {
               $("#game").hide();
               $("#info").hide();
               $("#playing_against").empty();
+              $("#symbol").empty();
               socket.emit('return_to_lobby', data);
             }));
           } else {
@@ -86,7 +89,9 @@ function drawGameBoard(data, clientUsername, clientSocketID) {
 }
 
 function makeMove(data, r, c, clientUsername, clientSocketID) {
+  var cell_letter = data.symbol;
   data.gameBoard[r][c] = data.symbol;
+  data[cell_letter] = cell_letter;
   socket.emit('move_made', data);
   // check if game is over on client side to know if that person won
   // gameStatus can either be true, false, or "tie"
@@ -221,6 +226,7 @@ socket.on('rejected_invite', function(data) {
 socket.on('next_turn', function(data) {
   $("#info").hide();
   $("#playing_against").empty();
+  $("#symbol").empty();
   // show game screen
   $("#welcome").hide();
   $("#lobby").hide();
@@ -236,6 +242,7 @@ socket.on('game_resigned', function(data) {
   $("#lobby").show();
   $("#game").hide();
   $("#playing_against").empty();
+  $("#symbol").empty();
   if (data.resigner) {
     $("#info").show();
     $("#info").text("You resigned the game against " + data.opponentName + ". You lose :(");
@@ -268,6 +275,7 @@ socket.on('game_over', function(data) {
     $("#game").hide();
     $("#info").hide();
     $("#playing_against").empty();
+    $("#symbol").empty();
     socket.emit('return_to_lobby', data);
   }));
 });
