@@ -14,10 +14,15 @@ exports.init = function(io) {
 
 		socket.on('login', function(data) {
 			// username is stored in data.username
-			socket.userId = data.username;  
-			onlineUsers[socket.id] = data.username;
-			socket.emit('username', {username: data.username});
-			refreshLobby();
+			if (Object.values(onlineUsers).indexOf(data.username) > -1) {
+				// if the person is already logged in...
+				socket.emit('already_logged_in');
+			} else {
+				socket.userId = data.username;  
+				onlineUsers[socket.id] = data.username;
+				socket.emit('username', {username: data.username});
+				refreshLobby();
+			}
 		});
 
 		socket.on('new_message', function(data) {

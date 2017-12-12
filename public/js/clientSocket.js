@@ -138,11 +138,21 @@ function isBoardFull(board) {
   return true;
 }
 
+socket.on('already_logged_in', function() {
+  $("#info").show();
+  $("#info").text("Sorry! That user is already logged in.");
+});
+
 // show which user you are!
 socket.on('username', function(data) {
   clientUsername = data.username;
   $("#username").text("Welcome, " + data.username);
   $("#logout").show();
+  $("#welcome").hide();
+  $("#lobby").show();
+  $("#game").hide();
+  $("#info").hide();
+  $("#error").hide();
 });
 
 // show when a new user joins

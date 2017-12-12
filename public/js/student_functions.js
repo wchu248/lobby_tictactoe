@@ -18,13 +18,6 @@ $(function() { // DOM is ready
             $("#error").html("Failed to login. Please try again.");
           } else {
             // login
-            // show lobby
-            $("#welcome").hide();
-            $("#lobby").show();
-            $("#game").hide();
-            $("#info").hide();
-            $("#error").hide();
-            $("#logout").hide();
             socket.emit('login', {username: result});
           }
         }
