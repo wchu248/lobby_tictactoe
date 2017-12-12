@@ -43,7 +43,7 @@ function drawGameBoard(data, clientUsername, clientSocketID) {
       var cell = $("<div>").attr('class', 'cell').attr('id', r + '_' + c)
                             // css stuff for positioning and borders
                             .css('top', r * (50) + 'px')
-                            .css('left', c * (50) + 'px')
+                            .css('left', (c - 1.5) * (50) + 'px')
                             .css('border-top', top ? '1px solid black' : '1px solid white')
                             .css('border-bottom', bottom ? '1px solid black' : '1px solid white')
                             .css('border-left', left ? '1px solid black' : '1px solid white')

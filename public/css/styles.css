@@ -5,6 +5,7 @@
 
 #board {
   position: relative;
+  display: inline-block;
 }
 
 .cell {
@@ -14,7 +15,8 @@
   background-color: white;
 }
 
-#welcome-buttons, #login_button_row, #register_button_row, #error, #info {
+#welcome-buttons, #login_button_row, #register_button_row, #error, #info, 
+#playing_against, #resign_button, #turn, #board_wrapper {
   text-align: center;
 }
 
@@ -34,6 +36,18 @@
   border: solid 1px rgb(204, 148, 102);
 	color: #ec8702;
   padding: 5px 8px;
+}
+
+#playing_against {
+  background-color: #CFC;
+  border: solid 1px #6C6;
+	color: #00AB56;
+  padding: 5px 8px;
+  font-style: italic;
+}
+
+#turn {
+  font-weight: bold;
 }
 
 #messages {
