@@ -20,8 +20,13 @@
 }
 
 #welcome-buttons, #login_button_row, #register_button_row, #error, #info, 
-#playing_against, #resign_button, #turn, #board_wrapper, #symbol {
+#playing_against, #resign_button, #turn, #board_wrapper, #symbol, #username {
   text-align: center;
+}
+
+#username {
+  font-style: italic;
+  font-weight: bold;
 }
 
 #error {
